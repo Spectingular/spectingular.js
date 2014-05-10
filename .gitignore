@@ -1,5 +1,8 @@
-#intellij stuff
+#intellij
 .idea
 *.iml
 *.ipr
 *.iws
+
+#bower
+bower_components
