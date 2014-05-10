@@ -1,20 +1,14 @@
 language: node_js
-
 node_js:
-  - 0.10
-
+- 0.1
 install:
-  - npm install
-
+- npm install
 before_script:
-  - npm install -g grunt-cli
-
+- npm install -g grunt-cli
 after_script:
-  - ./scripts/bower/publish.sh
-
+- ./scripts/bower/publish.sh
 script:
-  - grunt
-
+- grunt
 env:
   global:
-    - secure: hFfFJGwhQXEP+CTDT4Mn/rmkMvXSR1+vVPtPw7GtqAYh1x9Wi63enfsSRicvfOsY/6LjdZGmETSw2evY9a8f/tBUpXYk7GdHDEuwvh8/x89qvO2xBL8AhT/snvCpKS3CzxI8WF64xEE2QY+5nvogcFIBcHkIh1LIr0Fz4n91ZXs=
+    secure: TBQ7sfouRcY+cphns9c/3rAptG53DiLN2ylNVrV2ioDv+UVfE/9W59f4qM8OJwpTsGXEMQfy0SWwZnh3v3UprxE9pc2pXG2q6Rkq3OHTUhCM1KTAQMRIscDP9Ypz3Wr2nlL3RrfG732afEkyLg6SxnVT9WzzWS7xO0msOeHH/DU=
