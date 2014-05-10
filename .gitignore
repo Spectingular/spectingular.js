@@ -1,0 +1,5 @@
+#intellij stuff
+.idea
+*.iml
+*.ipr
+*.iws
