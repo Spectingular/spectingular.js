@@ -1,0 +1,25 @@
+{
+    "node": false,
+    "browser": true,
+    "es5": false,
+    "esnext": true,
+    "bitwise": true,
+    "curly": true,
+    "eqeqeq": true,
+    "immed": true,
+    "latedef": true,
+    "newcap": true,
+    "noarg": true,
+    "regexp": true,
+    "undef": true,
+    "unused": true,
+    "strict": true,
+    "asi": true,
+    "trailing": true,
+    "smarttabs": true,
+    "globalstrict" : true,
+    "globals": {
+        "angular": true,
+        "$": true
+    }
+}

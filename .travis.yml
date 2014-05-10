@@ -8,7 +8,7 @@ before_script:
 after_script:
 - ./scripts/bower/publish.sh
 script:
-- grunt
+- grunt travis
 env:
   global:
     secure: TBQ7sfouRcY+cphns9c/3rAptG53DiLN2ylNVrV2ioDv+UVfE/9W59f4qM8OJwpTsGXEMQfy0SWwZnh3v3UprxE9pc2pXG2q6Rkq3OHTUhCM1KTAQMRIscDP9Ypz3Wr2nlL3RrfG732afEkyLg6SxnVT9WzzWS7xO0msOeHH/DU=
