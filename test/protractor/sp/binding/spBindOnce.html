@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>BindOnce Spec</title>
+    <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="/bower_components/angular/angular.js"></script>
+    <script src="/src/sp/binding/spBindOnce.js"></script>
+
+    <script type="text/javascript">
+        angular.module("binding", ['sp.binding']).
+                controller('ctrl', ['$scope', function ($scope) {
+                    $scope.valid = true;
+                    $scope.model = {
+                        x: 'x',
+                        y: 'y'
+                    };
+                }]);
+    </script>
+</head>
+<body ng-app="binding">
+<div ng-controller="ctrl">
+
+    one way binding:<br/>
+            <span sp-bind-once>
+                <span id="oneWayX">x: {{model.x}}</span><br/>
+                <span id="oneWayY">y: {{model.y}}</span><br/>
+            </span><br/>
+
+    two way binding:<br/>
+            <span>
+                <span id="twoWayX">x: {{model.x}}</span><br/>
+                <span id="twoWayY">y: {{model.y}}</span><br/>
+            </span><br/>
+
+    x: <input type="text" name="updateX" ng-model="model.x"/><br/>
+    y: <input type="text" name="updateY" ng-model="model.y"/> <br/>
+</div>
+</body>
+</html>
