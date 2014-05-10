@@ -5,6 +5,7 @@ install:
 - npm install
 before_script:
 - npm install -g grunt-cli
+- bower install
 after_script:
 - ./scripts/bower/publish.sh
 script:
