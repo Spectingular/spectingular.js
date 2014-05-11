@@ -12,19 +12,17 @@ exports.config = {
         browser.getCapabilities().then(function(caps) {
             browser.params.browser = caps.get('browserName');
         });
-    },
 
-    onPrepare: function () {
         require('jasmine-reporters');
         mkdirp = require('mkdirp')
 
-        mkdirp('results/protractor/' + exports.config.capabilities.browserName, function (err) {
+        mkdirp('results/protractor/' + browser.params.browser, function (err) {
             if (err) {
                 throw new Error('Could not create directory ' + directory);
             }
         });
         jasmine.getEnv().addReporter(
-            new jasmine.JUnitXmlReporter('results/protractor/' + exports.config.capabilities.browserName, true, true));
+            new jasmine.JUnitXmlReporter('results/protractor/' + browser.params.browser, true, true));
     },
     onCleanUp: function () {
         var mergedAndUpdatedContent = '<?xml version="1.0"?>\n<testsuites>\n';
@@ -33,10 +31,9 @@ exports.config = {
         var failures = 0;
         var time = 0;
 
-        var browserName = exports.config.capabilities.browserName;
 
         var testcases = '';
-        grunt.file.expand('results/protractor/' + browserName + '/*').forEach(function (file) {
+        grunt.file.expand('results/protractor/' + browser.params.browser + '/*').forEach(function (file) {
             var content = grunt.file.read(file);
 
             var match = /\<testsuite.*errors="(\d*)".*tests="(\d*)".*failures="(\d*)".*time="(.*)".*timestamp.*>/g;
@@ -56,7 +53,7 @@ exports.config = {
         })
 
         var testsuite = '<testsuite ' +
-            'name="' + browserName + '" ' +
+            'name="' + browser.params.browser + '" ' +
             'package="protractor" ' +
             'tests="' + tests + '" ' +
             'errors="' + errors + '" ' +
@@ -67,7 +64,7 @@ exports.config = {
         mergedAndUpdatedContent = mergedAndUpdatedContent.concat('</testsuite>');
         mergedAndUpdatedContent = mergedAndUpdatedContent.concat('</testsuites>');
         mergedAndUpdatedContent = mergedAndUpdatedContent.replace(/^\s*[\r\n]/gm, "");
-        grunt.file.write('results/protractor/protractor-' + browserName + '.xml', mergedAndUpdatedContent);
+        grunt.file.write('results/protractor/protractor-' + browser.params.browser + '.xml', mergedAndUpdatedContent);
     },
     jasmineNodeOpts: {
         isVerbose: true,

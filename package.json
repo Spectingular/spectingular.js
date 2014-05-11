@@ -16,7 +16,6 @@
     "grunt-istanbul": "^0.2.5",
     "grunt-karma": "^0.8.3",
     "grunt-protractor-coverage": "^0.2.8",
-    "grunt-shell": "^0.7.0",
     "jasmine-reporters": "^0.4.1",
     "jshint-junit-reporter": "0.0.6",
     "karma": "^0.12.16",

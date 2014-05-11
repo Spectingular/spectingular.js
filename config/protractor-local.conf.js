@@ -1,17 +1,15 @@
 var config = require('./protractor-shared.conf').config;
 
-config.seleniumServerJar = '../node_modules/protractor/selenium/selenium-server-standalone-2.41.0.jar';
-config.seleniumPort = 4444;
+// run selenium by downloading selenium-standalone and running with java -jar selenium-standalone.....jar
+config.seleniumAddress = 'http://localhost:4444/wd/hub';
 
 config.specs = [
     'test/protractor/sp/**/*.js'
 ];
 
-config.capabilities = {
-    browserName: 'chrome'
-};
-
-config.chromeOnly = true;
-config.chromeDriver = '../node_modules/protractor/selenium/chromedriver';
+config.multiCapabilities = [
+    {'browserName': 'firefox'},
+    {'browserName': 'phantomjs'}
+];
 
 exports.config = config;

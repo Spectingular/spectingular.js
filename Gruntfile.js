@@ -16,14 +16,6 @@ module.exports = function (grunt) {
 
     grunt.initConfig({
         config: {},
-        shell: {
-            options: {
-                stdout: true
-            },
-            protractor_install: {
-                command: 'node ./node_modules/protractor/bin/webdriver-manager update'
-            }
-        },
         watch: {
             livereload: {
                 options: {
@@ -131,7 +123,6 @@ module.exports = function (grunt) {
             'karma',
             'instrument',
             'connect',
-            'shell:protractor_install',
             'protractor_coverage:local',
             'makeReport'
         ]);
