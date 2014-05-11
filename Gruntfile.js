@@ -96,6 +96,11 @@ module.exports = function (grunt) {
                 options: {
                     configFile: 'config/protractor-local.conf.js'
                 }
+            },
+            travis: {
+                options: {
+                    configFile: 'config/protractor-travis.conf.js'
+                }
             }
         },
         makeReport: {
@@ -111,11 +116,11 @@ module.exports = function (grunt) {
         grunt.task.run([
             'clean',
             'jshint',
-            'karma'
-//            'instrument',
-//            'connect',
-//            'protractor_coverage:travis',
-//            'makeReport'
+            'karma',
+            'instrument',
+            'connect',
+            'protractor_coverage:travis',
+            'makeReport'
         ]);
     });
 

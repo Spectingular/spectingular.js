@@ -1,15 +1,19 @@
 language: node_js
 node_js:
-- 0.1
+  - 0.10
 install:
-- npm install
+  - npm install
 before_script:
-- npm install -g grunt-cli
-- bower install
+  - npm install -g grunt-cli
+  - bower install
 after_script:
-- ./scripts/bower/publish.sh
+  - ./scripts/bower/publish.sh
 script:
-- grunt travis
+  - grunt travis
+addons:
+  sauce_connect: true
 env:
   global:
-    secure: TBQ7sfouRcY+cphns9c/3rAptG53DiLN2ylNVrV2ioDv+UVfE/9W59f4qM8OJwpTsGXEMQfy0SWwZnh3v3UprxE9pc2pXG2q6Rkq3OHTUhCM1KTAQMRIscDP9Ypz3Wr2nlL3RrfG732afEkyLg6SxnVT9WzzWS7xO0msOeHH/DU=
+    - SAUCE_USERNAME=spectingular
+    - SAUCE_ACCESS_KEY=e89c6e0f-0ecf-47a8-b251-89e91cc69d0e
+    - secure: TBQ7sfouRcY+cphns9c/3rAptG53DiLN2ylNVrV2ioDv+UVfE/9W59f4qM8OJwpTsGXEMQfy0SWwZnh3v3UprxE9pc2pXG2q6Rkq3OHTUhCM1KTAQMRIscDP9Ypz3Wr2nlL3RrfG732afEkyLg6SxnVT9WzzWS7xO0msOeHH/DU=
