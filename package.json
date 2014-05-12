@@ -17,6 +17,7 @@
     "grunt-contrib-watch": "^0.6.1",
     "grunt-istanbul": "^0.2.5",
     "grunt-karma": "^0.8.3",
+    "grunt-ngdocs": "^0.2.2",
     "grunt-protractor-coverage": "^0.2.8",
     "jasmine-reporters": "^0.4.1",
     "jshint-junit-reporter": "0.0.6",

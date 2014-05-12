@@ -124,6 +124,17 @@ module.exports = function (grunt) {
                     ]
                 }
             }
+        },
+        ngdocs: {
+            options: {
+                html5Mode: false,
+                title: 'App',
+                scripts: ['angular.js', 'src/sp/binding/spBindOnce.js']
+            },
+            api: {
+                src: ['src/sp/**/*.js'],
+                title: 'API Reference'
+            }
         }
     });
 
@@ -139,5 +150,6 @@ module.exports = function (grunt) {
         ]);
     });
     grunt.registerTask('package', 'Package the build files', ['concat', 'uglify']);
+    grunt.registerTask('docs', 'Run documentation generation', ['ngdocs']);
 
 };
