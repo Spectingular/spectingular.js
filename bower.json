@@ -1,5 +1,6 @@
 {
     "name": "SpectingularJS",
+    "version": "0.0.0",
     "devDependencies": {
         "angular": "~1.2.16",
         "angular-mocks": "~1.2.16",
