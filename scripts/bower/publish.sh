@@ -26,7 +26,6 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
     echo "https://$GH_TOKEN:@github.com" > .git/credentials
 
     echo "-- Copying build files to bower-spectingular"
-    cp ../../README.md .
     cp $BUILD_DIR/*.js .
 
     # updating bower.json
