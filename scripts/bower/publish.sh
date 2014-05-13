@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+BASE_DIR=$PWD
 
 function checkoutRepo() {
     REPO=$1
@@ -26,8 +27,8 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
     echo "#### Update bower ###############"
     echo "#################################"
 
-    TMP_DIR=tmp
-    BUILD_DIR=../../build
+    TMP_DIR="$BASE_DIR/tmp"
+    BUILD_DIR="$BASE_DIR/build"
     SHA=$(git rev-parse --short HEAD)
     CURRENT_VERSION=$(echo $(sed -En 's/.*"'version'"[ ]*:[ ]*"(.*)".*/\1/p' bower.json));
     NEW_VERSION=$CURRENT_VERSION-build.$TRAVIS_BUILD_NUMBER+sha.$SHA
@@ -40,8 +41,6 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
 
     pushd "$TMP_DIR/bower-spectingular"
     echo "-- Copying build files to bower-spectingular"
-
-    cp ../../README.md .
     cp $BUILD_DIR/*.js .
 
     # updating bower.json
@@ -67,7 +66,11 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
     checkoutRepo "https://github.com/Spectingular/spectingular.js.git" "$PAGES_DIR"
 
     pushd "$PAGES_DIR"
-    echo "-- Copying build files to bower-spectingular"
+    echo "-- Checking out gh-pages dir"
+    git checkout gh-pages
+    echo "-- Copying documentation files to gh-pages"
+    rm -rf docs
+    cp -r $BASE_DIR/docs .
     ls -lha .
     popd
 fi

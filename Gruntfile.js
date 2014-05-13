@@ -47,6 +47,7 @@ module.exports = function (grunt) {
         clean: {
             files: [
                 'results',
+                'build',
                 'instrumented'
             ]
         },
@@ -99,32 +100,56 @@ module.exports = function (grunt) {
             src: 'results/protractor/coverage/*.json',
             options: {
                 type: 'lcov',
-                dir: 'results/coverage/protractor'
+                dir: 'results/coverage/protractor',
+                print: 'detail'
+            }
+        },
+        concat: {
+            all: {
+                files: {
+                    'build/spectingular.js': [
+                        'src/sp/**/*.js'
+                    ]
+                }
+            }
+        },
+        uglify: {
+            options: {
+                banner: '/*! Built by Spectingular on <%= grunt.template.today("dd-mm-yyyy HH:MM:ss") %> */\n'
+            },
+            all: {
+                files: {
+                    'build/spectingular.min.js': [
+                        'build/spectingular.js'
+                    ]
+                }
+            }
+        },
+        ngdocs: {
+            options: {
+                html5Mode: false,
+                title: 'App',
+                scripts: ['angular.js', 'src/sp/binding/spBindOnce.js']
+            },
+            api: {
+                src: ['src/sp/**/*.js'],
+                title: 'API Reference'
             }
         }
     });
 
-    grunt.registerTask('travis', function () {
-        grunt.task.run([
-            'clean',
-            'jshint',
-            'karma',
-            'instrument',
-            'connect',
-            'protractor_coverage:travis',
-            'makeReport'
-        ]);
-    });
 
-    grunt.registerTask('local', function () {
+    grunt.registerTask('travis', 'Run code quality checks on Travis CI and package', ['clean', 'jshint', 'karma', 'protractor:travis', 'package']);
+    grunt.registerTask('local', 'Run code quality checks locally and package', ['clean', 'jshint', 'karma', 'protractor:local', 'package']);
+    grunt.registerTask('protractor', 'Run protractor tests with coverage on the given environment',  function (environment) {
         grunt.task.run([
-            'clean',
-            'jshint',
-            'karma',
             'instrument',
             'connect',
-            'protractor_coverage:local',
+            'protractor_coverage:' + environment,
             'makeReport'
         ]);
     });
+    grunt.registerTask('package', 'Package the build files', ['concat', 'uglify']);
+    grunt.registerTask('docs', 'Run documentation generation', ['ngdocs']);
+
 };

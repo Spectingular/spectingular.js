@@ -19,8 +19,8 @@
     </file>
 
     <file name="scripts.js">
-        angular.module("example", ['sp.binding']).
-            controller('ctrl', function($scope, properties) {
+        angular.module('example', ['sp.binding']).
+            controller('ctrl', function($scope) {
                  $scope.model = {
                     value1 : 'original value 1',
                     value2 : 'original value 2'

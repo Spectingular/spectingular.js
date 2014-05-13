@@ -17,3 +17,8 @@ env:
     - secure: TBQ7sfouRcY+cphns9c/3rAptG53DiLN2ylNVrV2ioDv+UVfE/9W59f4qM8OJwpTsGXEMQfy0SWwZnh3v3UprxE9pc2pXG2q6Rkq3OHTUhCM1KTAQMRIscDP9Ypz3Wr2nlL3RrfG732afEkyLg6SxnVT9WzzWS7xO0msOeHH/DU=
     - secure: VlTo+njqeMM+cjDEaVnt44Cpw0BMzWAENMESaY8RpTry2Q+lVANXmwG2sjxuSQvZeOb/GOgorJbO6rh1kMxj6PajOm+MxVbaIXfWKvjcem1E+yesTnB8fb9SMz/D+SiR5um7I59v4kKMpOOh31RhGmeV1zKgKmSMbW2fkZki9Yg=
     - secure: K8Pirc51kbUvuzXVHcngUlF78lDCbfrTtckPKhVhZ4lg5GwOsmBpQHsbPEXN7I9CE6F0bmNBDekAX94LA0QTIRUeutApInWN0rAB1McmksnU/A2dO0tlJtRYbtYMGaUp6Hu8UcsekkxTpo9I+wo5DRdeuYSA03a0Hi52dZpGSrU=
+
+notifications:
+  email:
+    on_success: always
+    on_failure: always
