@@ -1,4 +1,22 @@
 #!/usr/bin/env bash
+
+function checkoutRepo() {
+    REPO=$1
+    TARGET_PATH=$2
+
+    echo "-- Cloning $REPO TO $TARGET_PATH"
+    rm -rf "$TARGET_PATH"
+    git clone "$REPO" "$TARGET_PATH"
+    pushd "$TARGET_PATH"
+    git config --global user.name "$GIT_NAME"
+    git config --global user.email "$GIT_EMAIL"
+    git config --global credential.helper "store --file=.git/credentials"
+    echo "-- Storing credentials"
+    echo "https://$GH_TOKEN:@github.com" > .git/credentials
+    popd
+}
+
+
 if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
     # Script for updating the Spectingular bower repos from current local build.
 
@@ -16,16 +34,13 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
 
 
     # checkout the bower-spectingular repo
-    rm -rf $TMP_DIR/bower-spectingular
-    git clone https://github.com/Spectingular/bower-spectingular.git $TMP_DIR/bower-spectingular
-    cd $TMP_DIR/bower-spectingular
-    git config --global user.name "$GIT_NAME"
-    git config --global user.email "$GIT_EMAIL"
-    git config --global credential.helper "store --file=.git/credentials"
-    echo "-- Storing credentials"
-    echo "https://$GH_TOKEN:@github.com" > .git/credentials
+    echo "-- Checkout the bower-spectingular repo"
 
+    checkoutRepo "https://github.com/Spectingular/bower-spectingular.git" "$TMP_DIR/bower-spectingular"
+
+    pushd "$TMP_DIR/bower-spectingular"
     echo "-- Copying build files to bower-spectingular"
+
     cp ../../README.md .
     cp $BUILD_DIR/*.js .
 
@@ -43,4 +58,16 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
     git push origin master
     git push origin v$NEW_VERSION
     rm .git/credentials
+    popd
+
+    # Checkout the spectingular-repo
+    echo "-- Checkout the spectingular.js repo"
+
+    PAGES_DIR="$TMP_DIR/spectingular.js.gh-pages"
+    checkoutRepo "https://github.com/Spectingular/spectingular.js.git" "$PAGES_DIR"
+
+    pushd "$PAGES_DIR"
+    echo "-- Copying build files to bower-spectingular"
+    ls -lha .
+    popd
 fi
