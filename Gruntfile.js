@@ -130,10 +130,10 @@ module.exports = function (grunt) {
             options: {
                 html5Mode: false,
                 title: 'App',
-                scripts: ['angular.js', 'src/sp/binding/spBindOnce.js']
+                scripts: ['angular.js', 'build/spectingular.js']
             },
             api: {
-                src: ['src/sp/**/*.js', '.docs/index.ngdoc'],
+                src: ['build/spectingular.js', '.docs/index.ngdoc'],
                 title: 'API Documentation'
             }
         }
