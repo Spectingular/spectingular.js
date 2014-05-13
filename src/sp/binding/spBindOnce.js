@@ -10,22 +10,31 @@
  * @example
  <example module="example">
     <file name="index.html">
-        <div ng-controller="ctrl">
-            one way binding: <span sp-bind-once>{{model.value1}}{{model.value2}}</span><br/>
-            two way binding: <span>{{model.value1}}{{model.value2}}</span><br />
-            value 1: <input type="text" ng-model="model.value1" /><br />
-            value 2: <input type="text" ng-model="model.value2" />
-        </div>
+       <div ng-controller="ctrl">
+          <h3>one way binding</h3>
+          <span sp-bind-once>
+             value 1: {{model.value1}}<br />
+             value 2: {{model.value2}}
+          </span>
+          <h3>two way binding</h3>
+          <span>
+             value 1: {{model.value1}}<br />
+             value 2: {{model.value2}}
+          </span><br />
+          <h3>change</h3>
+          value 1: <input type="text" ng-model="model.value1" /><br />
+          value 2: <input type="text" ng-model="model.value2" />
+       </div>
     </file>
 
     <file name="scripts.js">
-        angular.module('example', ['sp.binding']).
-            controller('ctrl', function($scope) {
-                 $scope.model = {
-                    value1 : 'original value 1',
-                    value2 : 'original value 2'
-                    };
-             });
+       angular.module('example', ['sp.binding']).
+          controller('ctrl', function($scope) {
+             $scope.model = {
+                value1 : 'original value 1',
+                value2 : 'original value 2'
+             };
+          });
     </file>
  </example>
  **/
