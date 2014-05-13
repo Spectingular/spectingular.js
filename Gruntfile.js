@@ -48,6 +48,7 @@ module.exports = function (grunt) {
             files: [
                 'results',
                 'build',
+                'docs',
                 'instrumented'
             ]
         },
@@ -129,11 +130,12 @@ module.exports = function (grunt) {
             options: {
                 html5Mode: false,
                 title: 'App',
-                scripts: ['angular.js', 'src/sp/binding/spBindOnce.js']
+                scripts: ['angular.js', 'src/sp/binding/spBindOnce.js'],
             },
+
             api: {
-                src: ['src/sp/**/*.js'],
-                title: 'API Reference'
+                src: ['src/sp/**/*.js', '.docs/index.ngdoc'],
+                title: 'API Documentation'
             }
         }
     });
