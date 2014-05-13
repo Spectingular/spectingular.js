@@ -1,10 +1,10 @@
 <h1><code ng:non-bindable="">spBindOnce</code>
-<div><span class="hint">service in module <code ng:non-bindable="">sp.binding</code>
+<div><span class="hint">directive in module <code ng:non-bindable="">sp.binding</code>
 </span>
 </div>
 </h1>
 <div><h2 id="description">Description</h2>
-<div class="description"><div class="sp-binding-spbindonce-page"><p>Directive for handling one way binding, by destroying the scope within.</p>
+<div class="description"><div class="sp-binding-directive-page sp-binding-directive-spbindonce-page"><p>Directive for handling one way binding, by destroying the scope within.</p>
 </div></div>
 <h2 id="usage">Usage</h2>
 <div class="usage">as attribute<pre class="prettyprint linenums">&lt;ANY sp-bind-once&gt;
@@ -12,10 +12,10 @@
 &lt;/ANY&gt;</pre>
 </div>
 <h2 id="example">Example</h2>
-<div class="example"><div class="sp-binding-spbindonce-page"><h4 id="example_source">Source</h4>
-<div source-edit="example" source-edit-deps="angular.js scripts.js" source-edit-html="index.html" source-edit-css="" source-edit-js="scripts.js" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
+<div class="example"><div class="sp-binding-directive-page sp-binding-directive-spbindonce-page"><h4 id="example_source">Source</h4>
+<div source-edit="spBindExample" source-edit-deps="angular.js scripts.js" source-edit-html="index.html" source-edit-css="" source-edit-js="scripts.js" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
 <div class="tabbable"><div class="tab-pane" title="index.html">
-<pre class="prettyprint linenums" ng-set-text="index.html" ng-html-wrap-loaded="example angular.js scripts.js"></pre>
+<pre class="prettyprint linenums" ng-set-text="index.html" ng-html-wrap-loaded="spBindExample angular.js scripts.js"></pre>
 <script type="text/ng-template" id="index.html">
    <div ng-controller="ctrl">
       <h5 id="example_source_one-way-binding">one way binding</h5>
@@ -37,7 +37,7 @@
 <div class="tab-pane" title="scripts.js">
 <pre class="prettyprint linenums" ng-set-text="scripts.js"></pre>
 <script type="text/ng-template" id="scripts.js">
-   angular.module('example', ['sp.binding']).
+   angular.module('spBindExample', ['sp.binding']).
       controller('ctrl', function($scope) {
          $scope.model = {
             value1 : 'original value 1',
@@ -47,6 +47,6 @@
 </script>
 </div>
 </div><h4 id="example_demo">Demo</h4>
-<div class="well doc-example-live animate-container" ng-embed-app="example" ng-set-html="index.html" ng-eval-javascript="scripts.js"></div>
+<div class="well doc-example-live animate-container" ng-embed-app="spBindExample" ng-set-html="index.html" ng-eval-javascript="scripts.js"></div>
 </div></div>
 </div>
