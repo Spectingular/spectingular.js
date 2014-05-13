@@ -1,8 +1,17 @@
 NG_DOCS={
   "sections": {
-    "api": "API Reference"
+    "api": "API Documentation"
   },
   "pages": [
+    {
+      "section": "api",
+      "id": "index",
+      "shortName": "Spectingular.js",
+      "type": "overview",
+      "moduleName": "Spectingular.js",
+      "shortDescription": "Welcome",
+      "keywords": "api enjoy js library overview reference spectingular"
+    },
     {
       "section": "api",
       "id": "sp.binding.spBindOnce",
