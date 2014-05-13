@@ -71,6 +71,8 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
     echo "-- Copying documentation files to gh-pages"
     rm -rf docs
     cp -r $BASE_DIR/docs .
-    ls -lha .
+    git add -A
+    git commit -m "Docs for v$NEW_VERSION"
+    git push
     popd
 fi
