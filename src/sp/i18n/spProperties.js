@@ -39,7 +39,7 @@
  </example>
  **/
 
-angular.module('sp.i18n', []).provider('spProperties', function () {
+angular.module('sp.i18n', ['sp.utility']).provider('spProperties', function () {
     /**
      * @ngdoc service
      * @name sp.i18n.spPropertiesProvider
@@ -73,7 +73,7 @@ angular.module('sp.i18n', []).provider('spProperties', function () {
             propertyStore[identifier][localeIdentifier][key] = value;
         });
     }
-    this.$get = function () {
+    this.$get = ['spUtils', function (spUtils) {
         var propertyStore = this.propertyStore;
         return {
             /**
@@ -89,7 +89,7 @@ angular.module('sp.i18n', []).provider('spProperties', function () {
              * @returns {String} value The value
              */
             property: function (identifier, key, localeIdentifier) {
-                return propertyStore[identifier][localeIdentifier][key];
+                return spUtils.traverse(propertyStore, [identifier, localeIdentifier, key]);
             },
             /**
              * @ngdoc method
@@ -103,8 +103,8 @@ angular.module('sp.i18n', []).provider('spProperties', function () {
              * @returns {Array} valuesThe values
              */
             properties: function (identifier, localeIdentifier) {
-                return propertyStore[identifier][localeIdentifier];
+                return spUtils.traverse(propertyStore, [identifier, localeIdentifier]);
             }
         };
-    };
+    }];
 });

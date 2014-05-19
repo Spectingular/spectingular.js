@@ -56,4 +56,9 @@ describe('properties', function () {
         expect(service.property('identifier3', 'KEY_0003', mocks.locales.nlNl)).toEqual('overschrijven');
         expect(service.property('identifier3', 'KEY_0003', mocks.locales.de)).toEqual('&uuml;berschreiben');
     });
+    it('should give undefined for undefined entries', function () {
+        expect(service.property('identifier', 'KEY_0001', mocks.locales.enUs)).toBeUndefined();
+        expect(service.property('identifier1', 'KEY', mocks.locales.enUs)).toBeUndefined();
+        expect(service.property('identifier1', 'KEY_0001', "--")).toBeUndefined();
+    })
 });
