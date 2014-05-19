@@ -2,13 +2,13 @@
 
 /**
  * @ngdoc directive
- * @name sp.binding.spBindOnce
+ * @name sp.binding.directive:spBindOnce
  *
  * @description
  * Directive for handling one way binding, by destroying the scope within.
  *
  * @example
- <example module="example">
+ <example module="spBindExample">
     <file name="index.html">
        <div ng-controller="ctrl">
           <h3>one way binding</h3>
@@ -28,7 +28,7 @@
     </file>
 
     <file name="scripts.js">
-       angular.module('example', ['sp.binding']).
+       angular.module('spBindExample', ['sp.binding']).
           controller('ctrl', function($scope) {
              $scope.model = {
                 value1 : 'original value 1',
