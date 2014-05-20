@@ -23,30 +23,12 @@ NG_DOCS={
     },
     {
       "section": "api",
-      "id": "sp.i18n.spProperties",
-      "shortName": "sp.i18n.spProperties",
-      "type": "service",
-      "moduleName": "sp.i18n",
-      "shortDescription": "Service that allows you to provide multi lingual support for properties that can be used",
-      "keywords": "$scope add allows angular api config controller criteria ctrl dutch een en-us english enproperty example function html i18n identifier js key labels lingual locale localeidentifier matching method module multi ng-controller nl-nl nlproperty properties property provide scripts service sp spectingular spproperties sppropertiesexample sppropertiesprovider support values valuesthe"
-    },
-    {
-      "section": "api",
-      "id": "sp.i18n.spPropertiesProvider",
-      "shortName": "sp.i18n.spPropertiesProvider",
-      "type": "service",
-      "moduleName": "sp.i18n",
-      "shortDescription": "Provider that allows you to add properties for a given identifier and locale.",
-      "keywords": "add adds allows api i18n identifier key local locale localeidentifier matching method properties property provider service sp sppropertiesprovider"
-    },
-    {
-      "section": "api",
-      "id": "sp.utility.spUtils",
-      "shortName": "sp.utility.spUtils",
-      "type": "service",
+      "id": "sp.utility.filter:spTrusted",
+      "shortName": "spTrusted",
+      "type": "filter",
       "moduleName": "sp.utility",
-      "shortDescription": "Service that provides utility functions such as safe object traversal.",
-      "keywords": "$scope angular api array bar baz controller ctrl default foo function functions html js method module ng-controller obj object path restaurant result resultwithdefault resultwithoutdefault safe scripts service somedefaultvalue sp sputils sputilsexample string traversal traverse traverseordefault utility var"
+      "shortDescription": "Filter for trusting html.",
+      "keywords": "$scope angular api color controller ctrl filter function html js module ng-bind-html ng-controller onmouseover pwn3d scripts snippet sp sptrusted sptrustedexample style textcontent trusting utility"
     }
   ],
   "apis": {
@@ -56,6 +38,7 @@ NG_DOCS={
   "startPage": "/api",
   "scripts": [
     "angular.min.js",
+    "angular-sanitize.js",
     "spectingular.js"
   ]
 };
