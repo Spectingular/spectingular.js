@@ -130,7 +130,7 @@ module.exports = function (grunt) {
             options: {
                 html5Mode: false,
                 title: 'App',
-                scripts: ['angular.js', 'build/spectingular.js']
+                scripts: ['angular.js', 'bower_components/angular-sanitize/angular-sanitize.js', 'build/spectingular.js']
             },
             api: {
                 src: ['build/spectingular.js', '.docs/index.ngdoc'],
@@ -141,7 +141,7 @@ module.exports = function (grunt) {
 
 
     grunt.registerTask('travis', 'Run code quality checks on Travis CI and package', ['clean', 'jshint', 'karma', 'protractor:travis', 'package']);
-    grunt.registerTask('local', 'Run code quality checks locally and package', ['clean', 'jshint', 'karma', 'protractor:local', 'package']);
+    grunt.registerTask('local', 'Run code quality checks locally and package', ['clean', 'package']);
     grunt.registerTask('protractor', 'Run protractor tests with coverage on the given environment',  function (environment) {
         grunt.task.run([
             'instrument',
