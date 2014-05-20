@@ -27,7 +27,7 @@ module.exports = function (config) {
                 outputFile: 'results/junit/junit.xml'
             },
             coverageReporter: {
-                type: 'html',
+                type: 'lcov',
                 dir: 'results/coverage'
             },
             colors: true,
