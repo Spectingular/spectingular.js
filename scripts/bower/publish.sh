@@ -30,6 +30,7 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
     TMP_DIR="$BASE_DIR/tmp"
     BUILD_DIR="$BASE_DIR/build"
     SHA=$(git rev-parse --short HEAD)
+    BRANCH=$(git rev-parse --abbrev-ref HEAD)
     CURRENT_VERSION=$(echo $(sed -En 's/.*"'version'"[ ]*:[ ]*"(.*)".*/\1/p' bower.json));
     NEW_VERSION=$CURRENT_VERSION-build.$TRAVIS_BUILD_NUMBER+sha.$SHA
 
@@ -54,7 +55,7 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
     git tag v$NEW_VERSION
 
     echo "-- Pushing bower-spectingular"
-    git push origin master
+    git push origin $BRANCH
     git push origin v$NEW_VERSION
     rm .git/credentials
     popd

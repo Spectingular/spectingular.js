@@ -136,11 +136,20 @@ module.exports = function (grunt) {
                 src: ['build/spectingular.js', '.docs/index.ngdoc'],
                 title: 'API Documentation'
             }
+        },
+        coveralls: {
+            options: {
+                src: 'results/coverage/**/lcov.info',
+                force: false
+            },
+            all: {
+                src: 'results/coverage/protractor/lcov.info'
+            }
         }
     });
 
 
-    grunt.registerTask('travis', 'Run code quality checks on Travis CI and package', ['clean', 'jshint', 'karma', 'protractor:travis', 'package']);
+    grunt.registerTask('travis', 'Run code quality checks on Travis CI and package', ['clean', 'jshint', 'karma', 'protractor:travis', 'package', 'coveralls']);
     grunt.registerTask('local', 'Run code quality checks locally and package', ['clean', 'jshint', 'karma', 'protractor:local', 'package']);
     grunt.registerTask('protractor', 'Run protractor tests with coverage on the given environment',  function (environment) {
         grunt.task.run([
