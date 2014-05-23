@@ -7,7 +7,7 @@
  * @description
  * Service that provides utility functions such as safe object traversal.
  **/
-angular.module('sp.utility', []).service('spUtils', function () {
+angular.module('sp.utility').service('spUtils', function () {
     var fn = {};
 
     /**
