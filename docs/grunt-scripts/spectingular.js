@@ -284,10 +284,8 @@ angular.module('sp.utility').factory('spKeyBinder', ['$rootScope', '$document', 
                     service.handlers[options.type].elements[target].count++;
                     service.handlers[options.type].elements[target].keyCombinations[keyCombination]++;
                 }
-//                console.log('type ' + options.type + ' and target ' + target + ' and key combination ' + keyCombination + '.');
 
                 if(bind) {
-//                    console.log(target);
                     element.on(options.type, function (event) { // do the actual binding
                         var origin = angular.isDefined(event.delegateTarget.id) ? event.delegateTarget.id : 'document';
                         var keyCombinations = service.handlers[options.type].elements[origin].keyCombinations;
@@ -317,7 +315,6 @@ angular.module('sp.utility').factory('spKeyBinder', ['$rootScope', '$document', 
                                 if (keyCode !== 1) {
                                     eventName = eventName + '-' + kc;
                                 }
-//                                console.log('.'+ eventName+'.' + origin)
                                 $rootScope.$broadcast(eventName);
                             }
                         }

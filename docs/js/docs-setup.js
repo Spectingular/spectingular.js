@@ -91,6 +91,7 @@ NG_DOCS={
   "html5Mode": false,
   "startPage": "/api",
   "scripts": [
+    "jquery.js",
     "angular.min.js",
     "spectingular.js"
   ]
