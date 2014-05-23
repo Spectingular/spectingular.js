@@ -46,7 +46,7 @@ NG_DOCS={
       "type": "service",
       "moduleName": "sp.utility",
       "shortDescription": "Service that handles all key bindings and takes care of registring and unregistering the handlers.",
-      "keywords": "api bindings care handlers handles key keybinder registring service sp takes unregistering utility"
+      "keywords": "$on $rootscope $scope angular api bind bindings broadcast care click combination controller ctrl escape event events function handlers handles html js key keybinder keydown keydown-ctrl keydown-escape model module ng-controller ng-repeat placeholder push registring scripts service sp spkeybinder spkeybinderexample takes target text trigger type unregistering utility"
     },
     {
       "section": "api",

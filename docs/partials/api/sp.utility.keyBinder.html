@@ -6,4 +6,52 @@
 <div><h2 id="description">Description</h2>
 <div class="description"><div class="sp-utility-keybinder-page"><p>Service that handles all key bindings and takes care of registring and unregistering the handlers.</p>
 </div></div>
+<h2 id="example">Example</h2>
+<div class="example"><div class="sp-utility-keybinder-page"><h4 id="example_source">Source</h4>
+<div source-edit="spKeyBinderExample" source-edit-deps="angular.js scripts.js" source-edit-html="index.html-1" source-edit-css="" source-edit-js="scripts.js" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
+<div class="tabbable"><div class="tab-pane" title="index.html">
+<pre class="prettyprint linenums" ng-set-text="index.html-1" ng-html-wrap-loaded="spKeyBinderExample angular.js scripts.js"></pre>
+<script type="text/ng-template" id="index.html-1">
+   <div ng-controller="ctrl">
+      <span>Pressing the escape key should trigger a broadcast event</span><br />
+      <input type="text" id="x" placeholder="key combination ctrl+shift+x should trigger a broadcast event"/><br />
+      <div id="y">Clicking here should trigger a broadcast event</div><br /><br />
+      <h3 id="example_events">events</h3>
+            {{model.events}}
+//          <ul>
+//            <li ng-repeat="event in events">{{event}}</li>
+//          </ul>
+   </div>
+</script>
+</div>
+<div class="tab-pane" title="scripts.js">
+<pre class="prettyprint linenums" ng-set-text="scripts.js"></pre>
+<script type="text/ng-template" id="scripts.js">
+   angular.module("spKeyBinderExample", ['sp.utility']).
+      controller('ctrl', function($rootScope, $scope, spKeyBinder) {
+         spKeyBinder.bind('escape');
+         spKeyBinder.bind('ctrl+shift+x', {
+            target: 'x',
+            type: 'keydown'
+         });
+         spKeyBinder.bind(undefined, {
+            target: 'y',
+            type: 'click'
+         });
+         $scope.model = {events: []};
+         $rootScope.$on('keydown-escape', function(event) {
+            $scope.model.events.push('keydown-escape');
+         });
+         $rootScope.$on('keydown-ctrl+shift+x', function(event) {
+            $scope.model.events.push('keydown-ctrl+shift+x');
+         });
+         $rootScope.$on('click', function(event) {
+            $scope.model.events.push('click');
+         });
+      });
+</script>
+</div>
+</div><h4 id="example_events_demo">Demo</h4>
+<div class="well doc-example-live animate-container" ng-embed-app="spKeyBinderExample" ng-set-html="index.html-1" ng-eval-javascript="scripts.js"></div>
+</div></div>
 </div>
