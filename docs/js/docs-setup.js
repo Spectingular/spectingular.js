@@ -41,12 +41,48 @@ NG_DOCS={
     },
     {
       "section": "api",
+      "id": "sp.utility.keyBinder",
+      "shortName": "sp.utility.keyBinder",
+      "type": "service",
+      "moduleName": "sp.utility",
+      "shortDescription": "Service that handles all key bindings and takes care of registring and unregistering the handlers.",
+      "keywords": "api bindings care handlers handles key keybinder registring service sp takes unregistering utility"
+    },
+    {
+      "section": "api",
+      "id": "sp.utility.spKeyBinderConfig",
+      "shortName": "sp.utility.spKeyBinderConfig",
+      "type": "service",
+      "moduleName": "sp.utility",
+      "shortDescription": "Service that provides the default options for the spKeyBinder. It also allows you to override",
+      "keywords": "allows api default defaultoptions defaults method options override service sp special specialkeys spkeybinder spkeybinderconfig utility"
+    },
+    {
+      "section": "api",
+      "id": "sp.utility.spKeyBinderConfigProvider",
+      "shortName": "sp.utility.spKeyBinderConfigProvider",
+      "type": "service",
+      "moduleName": "sp.utility",
+      "shortDescription": "Provider that allows you to override default options.",
+      "keywords": "allows api bound default event events method options override provider register service setdefaulttarget setdefaulttype sp spkeybinder spkeybinderconfigprovider target type utility"
+    },
+    {
+      "section": "api",
       "id": "sp.utility.spUtils",
       "shortName": "sp.utility.spUtils",
       "type": "service",
       "moduleName": "sp.utility",
       "shortDescription": "Service that provides utility functions such as safe object traversal.",
       "keywords": "$scope angular api array bar baz controller ctrl default foo function functions html js method module ng-controller obj object path restaurant result resultwithdefault resultwithoutdefault safe scripts service somedefaultvalue sp sputils sputilsexample string traversal traverse traverseordefault utility var"
+    },
+    {
+      "section": "api",
+      "id": "Spectingular.js",
+      "shortName": "Spectingular.js",
+      "type": "overview",
+      "moduleName": "Spectingular.js",
+      "shortDescription": "Module: Spectingular utility (sp.utility)",
+      "keywords": "api js module overview spectingular utilities utility"
     }
   ],
   "apis": {
