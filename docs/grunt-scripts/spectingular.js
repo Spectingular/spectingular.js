@@ -187,16 +187,15 @@ angular.module('sp.i18n', ['sp.utility']).provider('spProperties', function () {
           <input type="text" id="x" placeholder="key combination ctrl+shift+x should trigger a broadcast event"/><br />
           <div id="y">Clicking here should trigger a broadcast event</div><br /><br />
           <h1>events</h1>
-                {{model.events}}
-//          <ul>
-//            <li ng-repeat="event in events">{{event}}</li>
-//          </ul>
+          <ul>
+            <li ng-repeat="event in events">{{event}}</li>
+          </ul>
        </div>
     </file>
 
     <file name="scripts.js">
        angular.module("spKeyBinderExample", ['sp.utility']).
-          controller('ctrl', function($rootScope, $scope, spKeyBinder) {
+          controller('ctrl', function($scope, spKeyBinder) {
              spKeyBinder.bind('escape');
              spKeyBinder.bind('ctrl+shift+x', {
                 target: 'x',
@@ -206,15 +205,19 @@ angular.module('sp.i18n', ['sp.utility']).provider('spProperties', function () {
                 target: 'y',
                 type: 'click'
              });
+
              $scope.model = {events: []};
-             $rootScope.$on('keydown-escape', function(event) {
+             $scope.$on('keydown-escape', function(event) {
                 $scope.model.events.push('keydown-escape');
+                $scope.$apply();
              });
-             $rootScope.$on('keydown-ctrl+shift+x', function(event) {
+             $scope.$on('keydown-ctrl+shift+x', function(event) {
                 $scope.model.events.push('keydown-ctrl+shift+x');
+                $scope.$apply();
              });
-             $rootScope.$on('click', function(event) {
+             $scope.$on('click', function(event) {
                 $scope.model.events.push('click');
+                $scope.$apply();
              });
           });
  </file>
