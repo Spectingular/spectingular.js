@@ -6,7 +6,7 @@ module.exports = function (config) {
                 'bower_components/jquery/dist/jquery.min.js',
                 'bower_components/angular/angular.min.js',
                 'bower_components/angular-mocks/angular-mocks.js',
-                'src/sp/**/spUtility.js',
+                'src/sp/**/sp.js',
                 'src/sp/**/*.js',
                 'test/mocks/sp/**/*.js',
                 'test/unit/sp/**/*.js'

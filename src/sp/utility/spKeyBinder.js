@@ -93,7 +93,7 @@ angular.module('sp.utility').factory('spKeyBinder', ['$rootScope', '$document', 
         }
 
         callback(keyCombination, options, element);
-    };
+    }
 
     /**
      * @ngdoc method

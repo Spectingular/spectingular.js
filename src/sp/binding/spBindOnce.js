@@ -39,7 +39,7 @@
  </example>
  **/
 
-angular.module('sp.binding', []).directive('spBindOnce', ['$timeout', function ($timeout) {
+angular.module('sp.binding').directive('spBindOnce', ['$timeout', function ($timeout) {
     return {
         scope: true,
         link: function (scope) {
