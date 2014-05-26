@@ -109,7 +109,7 @@ module.exports = function (grunt) {
             all: {
                 files: {
                     'build/spectingular.js': [
-                        'src/sp/**/spUtility.js',
+                        'src/sp/sp.js',
                         'src/sp/**/*.js'
                     ]
                 }
