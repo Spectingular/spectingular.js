@@ -92,7 +92,7 @@ angular.module('sp.binding').directive('spBindOnce', ['$timeout', function ($tim
  <div id="y">Clicking here should trigger a broadcast event</div><br /><br />
  <h1>events</h1>
  <ul>
- <li ng-repeat="event in model.events">{{event}}</li>
+ <li ng-repeat="event in model.events track by $index">{{event}}</li>
  </ul>
  </div>
  </file>
