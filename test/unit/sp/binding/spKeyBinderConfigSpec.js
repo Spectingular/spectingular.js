@@ -3,9 +3,9 @@
 describe('spKeyBinderConfig provider', function () {
     var service, document;
 
-    angular.module("defaultConfig", ['sp.utility']);
+    angular.module("defaultConfig", ['sp.binding']);
 
-    angular.module("overrideConfig", ['sp.utility']).
+    angular.module("overrideConfig", ['sp.binding']).
         config(function (spKeyBinderConfigProvider) {
             spKeyBinderConfigProvider.setDefaultTarget('x');
             spKeyBinderConfigProvider.setDefaultType('keyup');

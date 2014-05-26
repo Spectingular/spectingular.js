@@ -2,17 +2,17 @@
 
 /**
  * @ngdoc service
- * @name sp.utility.spKeyBinderConfig
+ * @name sp.binding.spKeyBinderConfig
  *
  * @description
  * Service that provides the default options for the spKeyBinder. It also allows you to override
  * the defaults.
 
  */
-angular.module('sp.utility').provider('spKeyBinderConfig',function () {
+angular.module('sp.binding').provider('spKeyBinderConfig',function () {
     /**
      * @ngdoc service
-     * @name sp.utility.spKeyBinderConfigProvider
+     * @name sp.binding.spKeyBinderConfigProvider
      *
      * @description
      * Provider that allows you to override default options.
@@ -57,8 +57,8 @@ angular.module('sp.utility').provider('spKeyBinderConfig',function () {
     };
     /**
      * @ngdoc method
-     * @name sp.utility.spKeyBinderConfigProvider#setDefaultTarget
-     * @methodOf sp.utility.spKeyBinderConfigProvider
+     * @name sp.binding.spKeyBinderConfigProvider#setDefaultTarget
+     * @methodOf sp.binding.spKeyBinderConfigProvider
      *
      * @description
      * Override the default target to which the spKeyBinder will register the events.
@@ -69,8 +69,8 @@ angular.module('sp.utility').provider('spKeyBinderConfig',function () {
     };
     /**
      * @ngdoc method
-     * @name sp.utility.spKeyBinderConfigProvider#setDefaultType
-     * @methodOf sp.utility.spKeyBinderConfigProvider
+     * @name sp.binding.spKeyBinderConfigProvider#setDefaultType
+     * @methodOf sp.binding.spKeyBinderConfigProvider
      *
      * @description
      * Override the default type to which the event will be bound.
@@ -89,8 +89,8 @@ angular.module('sp.utility').provider('spKeyBinderConfig',function () {
         return {
             /**
              * @ngdoc method
-             * @name sp.utility.spKeyBinderConfig#defaultOptions
-             * @methodOf sp.utility.spKeyBinderConfig
+             * @name sp.binding.spKeyBinderConfig#defaultOptions
+             * @methodOf sp.binding.spKeyBinderConfig
              *
              * @description
              * Gets the spKeyBinder default options
@@ -101,8 +101,8 @@ angular.module('sp.utility').provider('spKeyBinderConfig',function () {
             },
             /**
              * @ngdoc method
-             * @name sp.utility.spKeyBinderConfig#specialKeys
-             * @methodOf sp.utility.spKeyBinderConfig
+             * @name sp.binding.spKeyBinderConfig#specialKeys
+             * @methodOf sp.binding.spKeyBinderConfig
              *
              * @description
              * Gets the spKeyBinder special keys

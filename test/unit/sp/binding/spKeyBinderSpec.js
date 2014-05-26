@@ -14,7 +14,7 @@ describe('spKeyBinder service', function () {
     }
 
     beforeEach(function () {
-        module('sp.utility');
+        module('sp.binding');
         inject(function ($rootScope, $document, spKeyBinder, $compile) {
             service = spKeyBinder;
             scope = $rootScope;

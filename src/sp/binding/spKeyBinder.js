@@ -2,8 +2,8 @@
 
 /**
  * @ngdoc service
- * @name sp.utility.spKeyBinder
- * @requires sp.utility.spKeyBinderConfig
+ * @name sp.binding.spKeyBinder
+ * @requires sp.binding.spKeyBinderConfig
  *
  * @description
  * The `spKeyBinder` service is a utility Spectingular service that facilitates the binding and unbinding
@@ -38,13 +38,13 @@
  <div id="y">Clicking here should trigger a broadcast event</div><br /><br />
  <h1>events</h1>
  <ul>
- <li ng-repeat="event in events">{{event}}</li>
+ <li ng-repeat="event in model.events">{{event}}</li>
  </ul>
  </div>
  </file>
 
  <file name="scripts.js">
- angular.module("spKeyBinderExample", ['sp.utility']).
+ angular.module("spKeyBinderExample", ['sp.binding']).
  controller('ctrl', function($scope, spKeyBinder) {
              spKeyBinder.bind('escape');
              spKeyBinder.bind('ctrl+shift+x', {
@@ -73,7 +73,7 @@
  </file>
  </example>
  */
-angular.module('sp.utility').factory('spKeyBinder', ['$rootScope', '$document', 'spKeyBinderConfig', function ($rootScope, $document, spKeyBinderConfig) {
+angular.module('sp.binding').factory('spKeyBinder', ['$rootScope', '$document', 'spKeyBinderConfig', function ($rootScope, $document, spKeyBinderConfig) {
     var handlers = {};
 
     /**
@@ -97,8 +97,8 @@ angular.module('sp.utility').factory('spKeyBinder', ['$rootScope', '$document', 
 
     /**
      * @ngdoc method
-     * @name sp.utility.spKeyBinder#bind
-     * @methodOf sp.utility.spKeyBinder
+     * @name sp.binding.spKeyBinder#bind
+     * @methodOf sp.binding.spKeyBinder
      * @description Bind the event to the given target for the given key combination.
      * @param {string} keyCombination The key combination.
      * @param {Object=} options The options.
@@ -177,8 +177,8 @@ angular.module('sp.utility').factory('spKeyBinder', ['$rootScope', '$document', 
 
     /**
      * @ngdoc method
-     * @name sp.utility.spKeyBinder#unbind
-     * @methodOf sp.utility.spKeyBinder
+     * @name sp.binding.spKeyBinder#unbind
+     * @methodOf sp.binding.spKeyBinder
      * @description Unbind the event to the given target for the given key combination.
      * @param {string} keyCombination The key combination.
      * @param {Object=} options The options.
