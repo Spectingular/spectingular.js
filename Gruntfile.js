@@ -109,6 +109,7 @@ module.exports = function (grunt) {
             all: {
                 files: {
                     'build/spectingular.js': [
+                        'src/sp/sp.js',
                         'src/sp/**/*.js'
                     ]
                 }
@@ -130,7 +131,7 @@ module.exports = function (grunt) {
             options: {
                 html5Mode: false,
                 title: 'App',
-                scripts: ['angular.js', 'build/spectingular.js']
+                scripts: ['bower_components/jquery/dist/jquery.js', 'angular.js', 'build/spectingular.js']
             },
             api: {
                 src: ['build/spectingular.js', '.docs/index.ngdoc'],
@@ -151,7 +152,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('travis', 'Run code quality checks on Travis CI and package', ['clean', 'jshint', 'karma', 'protractor:travis', 'package', 'coveralls']);
     grunt.registerTask('local', 'Run code quality checks locally and package', ['clean', 'jshint', 'karma', 'protractor:local', 'package']);
-    grunt.registerTask('protractor', 'Run protractor tests with coverage on the given environment',  function (environment) {
+    grunt.registerTask('protractor', 'Run protractor tests with coverage on the given environment', function (environment) {
         grunt.task.run([
             'instrument',
             'connect',
@@ -160,6 +161,6 @@ module.exports = function (grunt) {
         ]);
     });
     grunt.registerTask('package', 'Package the build files', ['concat', 'uglify']);
-    grunt.registerTask('docs', 'Run documentation generation', ['ngdocs']);
+    grunt.registerTask('docs', 'Run documentation generation', ['concat', 'ngdocs', 'connect', 'watch']);
 
 };

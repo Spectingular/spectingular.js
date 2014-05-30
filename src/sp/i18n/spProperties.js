@@ -39,7 +39,7 @@
  </example>
  **/
 
-angular.module('sp.i18n', ['sp.utility']).provider('spProperties', function () {
+angular.module('sp.i18n').provider('spProperties', function () {
     /**
      * @ngdoc service
      * @name sp.i18n.spPropertiesProvider
