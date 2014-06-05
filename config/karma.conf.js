@@ -25,16 +25,19 @@ module.exports = function (config) {
                 'src/sp/**/*.js': 'coverage'
             },
             junitReporter: {
-                outputFile: 'results/junit/junit.xml'
+                outputFile: 'results/junit/report.xml'
             },
             coverageReporter: {
-                type: 'lcov',
-                dir: 'results/coverage'
+                reporters: [
+                    {type: 'html', dir: 'results/junit/coverage'},
+                    {type: 'json', dir: 'results/junit/coverage'},
+                    {type: 'text-summary'}
+                ]
             },
             colors: true,
             logLevel: config.LOG_INFO,
             autoWatch: true,
-            browsers: ['PhantomJS'],
+            browsers: ['PhantomJS', 'Chrome'],
             captureTimeout: 10000,
             singleRun: false
         }
