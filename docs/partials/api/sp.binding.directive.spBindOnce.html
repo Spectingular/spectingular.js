@@ -13,40 +13,40 @@
 </div>
 <h2 id="example">Example</h2>
 <div class="example"><div class="sp-binding-directive-page sp-binding-directive-spbindonce-page"><h4 id="example_source">Source</h4>
-<div source-edit="spBindExample" source-edit-deps="angular.js scripts.js" source-edit-html="index.html" source-edit-css="" source-edit-js="scripts.js" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
+<div source-edit="spBindExample" source-edit-deps="angular.js scripts.js" source-edit-html="index.html-1" source-edit-css="" source-edit-js="scripts.js" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
 <div class="tabbable"><div class="tab-pane" title="index.html">
-<pre class="prettyprint linenums" ng-set-text="index.html" ng-html-wrap-loaded="spBindExample angular.js scripts.js"></pre>
-<script type="text/ng-template" id="index.html">
-   <div ng-controller="ctrl">
-      <h5 id="example_source_one-way-binding">one way binding</h5>
-      <span sp-bind-once>
-         value 1: {{model.value1}}<br />
-         value 2: {{model.value2}}
-      </span>
-      <h5 id="example_source_two-way-binding">two way binding</h5>
-      <span>
-         value 1: {{model.value1}}<br />
-         value 2: {{model.value2}}
-      </span><br />
-      <h5 id="example_source_change">change</h5>
-      value 1: <input type="text" ng-model="model.value1" /><br />
-      value 2: <input type="text" ng-model="model.value2" />
-   </div>
+<pre class="prettyprint linenums" ng-set-text="index.html-1" ng-html-wrap-loaded="spBindExample angular.js scripts.js"></pre>
+<script type="text/ng-template" id="index.html-1">
+<div ng-controller="ctrl">
+<h5 id="example_source_one-way-binding">one way binding</h5>
+<span sp-bind-once>
+value 1: {{model.value1}}<br />
+value 2: {{model.value2}}
+</span>
+<h5 id="example_source_two-way-binding">two way binding</h5>
+<span>
+value 1: {{model.value1}}<br />
+value 2: {{model.value2}}
+</span><br />
+<h5 id="example_source_change">change</h5>
+value 1: <input type="text" ng-model="model.value1" /><br />
+value 2: <input type="text" ng-model="model.value2" />
+</div>
 </script>
 </div>
 <div class="tab-pane" title="scripts.js">
 <pre class="prettyprint linenums" ng-set-text="scripts.js"></pre>
 <script type="text/ng-template" id="scripts.js">
-   angular.module('spBindExample', ['sp.binding']).
-      controller('ctrl', function($scope) {
-         $scope.model = {
-            value1 : 'original value 1',
-            value2 : 'original value 2'
-         };
-      });
+angular.module('spBindExample', ['sp.binding']).
+controller('ctrl', function($scope) {
+            $scope.model = {
+               value1 : 'original value 1',
+               value2 : 'original value 2'
+            };
+         });
 </script>
 </div>
 </div><h4 id="example_demo">Demo</h4>
-<div class="well doc-example-live animate-container" ng-embed-app="spBindExample" ng-set-html="index.html" ng-eval-javascript="scripts.js"></div>
+<div class="well doc-example-live animate-container" ng-embed-app="spBindExample" ng-set-html="index.html-1" ng-eval-javascript="scripts.js"></div>
 </div></div>
 </div>
