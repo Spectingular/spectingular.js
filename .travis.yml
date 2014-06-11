@@ -10,7 +10,7 @@ after_success:
   - ./scripts/bower/publish.sh
 script:
   - grunt travis
-  - grunt docs
+  - grunt ngdocs
 addons:
   sauce_connect: true
 env:
