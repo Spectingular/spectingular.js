@@ -33,7 +33,9 @@
     "karma-junit-reporter": "~0.2.2",
     "karma-phantomjs-launcher": "~0.1.4",
     "matchdep": "~0.3.0",
+    "minijasminenode": "^0.4.0",
     "mkdirp": "~0.5.0",
+    "protractor": "^0.24.1",
     "time-grunt": "~0.3.1"
   },
   "licenses": [
