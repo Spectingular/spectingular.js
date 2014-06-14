@@ -1,6 +1,6 @@
 'use strict';
 
-describe('bindOnce', function () {
+describe('spBindOnce', function () {
     var oneWayX, oneWayY, oneWayZ, twoWayX, twoWayY, inputX, inputY;
     beforeEach(function () {
         browser.get('/test/protractor/sp/binding/spBindOnce.html');

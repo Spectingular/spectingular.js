@@ -1,8 +1,7 @@
 'use strict';
 var mocks = require('../../../mocks/sp/i18n/spPropertiesMock').mocks;
 
-/* jasmine e2e specs for the wizard directive, */
-describe('properties', function () {
+describe('spProperties', function () {
     beforeEach(function() {
         browser.get('/test/protractor/sp/i18n/spProperties.html');
     })
