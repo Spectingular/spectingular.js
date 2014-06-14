@@ -59,7 +59,7 @@ angular.module('sp.binding').directive('spBindOnce', ['$timeout', function ($tim
  * @name sp.i18n.spProperties
  *
  * @description
- * Service that allows you to provide multi lingual support for properties that can be used
+ * Provider that allows you to provide multi lingual support for properties that can be used
  * for labels etc.
  *
  * @example
@@ -160,6 +160,146 @@ angular.module('sp.i18n').provider('spProperties', function () {
                 return spUtils.traverse(propertyStore, [identifier, localeIdentifier]);
             }
         };
+    }];
+});
+'use strict';
+
+/**
+ * @ngdoc directive
+ * @name sp.i18n.directive:spProperty
+ *
+ * @description
+ * Directive for displaying properties from the {@link sp.i18n.spProperties} service.
+ *
+ * @param {String} key The property key to display
+ * @param {String=} identifier The properties identifier
+ * @param {String=} locale The locale
+ *
+ * @example
+ <example module="spPropertyExample">
+    <file name="index.html">
+       <div ng-controller="ctrl">
+          <h3>Using attributes identifier [`example`], key [`welcome-message`] and locale [`nl-nl`]</h3>
+          <div sp-property identifier='example' key='welcome-message' locale='nl-nl'></div>
+          <h3>Using attributes identifier [`example`], key [`welcome-message`] and the default locale</h3>
+          <div sp-property identifier='example' key='welcome-message'></div>
+          <h3>Using attribute key [`welcome-message`] and the default locale and identifier</h3>
+          <div sp-property key='welcome-message'></div>
+       </div>
+    </file>
+
+    <file name="scripts.js">
+       angular.module('spPropertyExample', ['sp.i18n']).
+          config(function(spPropertiesProvider, spPropertyConfigProvider) {
+             spPropertiesProvider.add('example', {
+                'name': 'spectingular',
+                'welcome-message': 'hello I am {{who}}'
+             }, 'en-us');
+             spPropertiesProvider.add('example', {
+                'name': 'spectingular',
+                'welcome-message': 'hallo ik ben {{who}}'
+             }, 'nl-nl');
+             spPropertyConfigProvider.setDefaultIdentifier('example');
+          }).
+          controller('ctrl', function($scope) {
+             $scope.who = 'Spectingular';
+          });
+    </file>
+ </example>
+ **/
+angular.module('sp.i18n').directive('spProperty', ['spProperties', 'spPropertyConfig', '$compile', function (spProperties, spPropertyConfig, $compile) {
+    return {
+        restrict: 'EA',
+        scope: false,
+        link: function (scope, element, attrs) {
+            var identifier = angular.isDefined(attrs.identifier) ? attrs.identifier : spPropertyConfig.defaultIdentifier;
+            var locale = angular.isDefined(attrs.locale) ? attrs.locale : spPropertyConfig.defaultLocale;
+
+            element.html(spProperties.property(identifier, attrs.key, locale));
+            $compile(element.contents())(scope);
+        }
+    };
+}]);
+'use strict';
+
+/**
+ * @ngdoc service
+ * @name sp.i18n.spPropertyConfig
+ *
+ * @description
+ * Provider that provides the default options for the spProperty directive.
+ * It also allows you to override the defaults.
+ *
+ * @Usage
+ * angular.module('myModule', []).config(function(spPropertyConfigProvider) {
+ *      spPropertyConfigProvider.setDefaultIdentifier('example');
+ *  })
+ */
+angular.module('sp.i18n').provider('spPropertyConfig', function () {
+    /**
+     * @ngdoc service
+     * @name sp.i18n.spPropertyConfigProvider
+     *
+     * @description
+     * Provider that allows you to override default options.
+     */
+    this.defaultOptions = {
+        identifier: undefined
+    };
+
+    /**
+     * @ngdoc method
+     * @name sp.i18n.spPropertyConfigProvider#setDefaultIdentifier
+     * @methodOf sp.i18n.spPropertyConfigProvider
+     *
+     * @description
+     * Override the default identifier for which the spProperty will get the properties
+     * @param {String} identifier The identifier.
+     */
+    this.setDefaultIdentifier = function (identifier) {
+        this.defaultOptions.identifier = identifier;
+    };
+
+    /**
+     * @ngdoc method
+     * @name sp.i18n.spPropertyConfigProvider#setDefaultLocale
+     * @methodOf sp.i18n.spPropertyConfigProvider
+     *
+     * @description
+     * Override the default locale for which the spProperty will get the properties
+     * @param {String} locale The locale.
+     */
+    this.setDefaultLocale = function (locale) {
+        this.defaultOptions.locale = locale;
+    };
+
+    this.$get = ['$locale', function ($locale) {
+        var defaultOptions = this.defaultOptions;
+        if (angular.isUndefined(defaultOptions.locale)) {
+            defaultOptions.locale = $locale.id
+        }
+        return {
+            /**
+             * @ngdoc method
+             * @name sp.i18n.spPropertyConfig#defaultIdentifier
+             * @methodOf sp.i18n.spPropertyConfig
+             *
+             * @description
+             * Gets the default identifier
+             * @returns {Object} defaultIdentifier The default identifier
+             */
+            defaultIdentifier: defaultOptions.identifier,
+            /**
+             * @ngdoc method
+             * @name sp.i18n.spPropertyConfig#defaultLocale
+             * @methodOf sp.i18n.spPropertyConfig
+             *
+             * @description
+             * Gets the default locale
+             * @returns {Object} defaultLocale The default locale
+             */
+            defaultLocale: defaultOptions.locale
+        }
     }];
 });
 'use strict';
