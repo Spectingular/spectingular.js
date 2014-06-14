@@ -21,7 +21,7 @@
     "grunt-istanbul": "~0.3.0",
     "grunt-karma": "~0.8.3",
     "grunt-ngdocs": "~0.2.2",
-    "grunt-protractor-coverage": "~0.2.8",
+    "grunt-protractor-coverage": "~0.2.9",
     "istanbul": "~0.2.10",
     "jasmine-reporters": "~0.4.1",
     "jshint-junit-reporter": "~0.0.6",
@@ -34,7 +34,6 @@
     "karma-phantomjs-launcher": "~0.1.4",
     "matchdep": "~0.3.0",
     "mkdirp": "~0.5.0",
-    "protractor": "~0.23.1",
     "time-grunt": "~0.3.1"
   },
   "licenses": [
