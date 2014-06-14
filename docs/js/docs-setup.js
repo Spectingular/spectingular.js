@@ -23,15 +23,6 @@ NG_DOCS={
     },
     {
       "section": "api",
-      "id": "sp.binding.directive:spBindOnce",
-      "shortName": "spBindOnce",
-      "type": "directive",
-      "moduleName": "sp.binding",
-      "shortDescription": "Directive for handling one way binding, by destroying the scope within.",
-      "keywords": "$scope angular api binding controller ctrl destroying directive function handling html js model module ng-controller ng-model original scope scripts sp sp-bind-once spbindexample text type value1 value2"
-    },
-    {
-      "section": "api",
       "id": "sp.i18n.spProperties",
       "shortName": "sp.i18n.spProperties",
       "type": "service",
