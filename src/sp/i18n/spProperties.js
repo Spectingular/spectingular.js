@@ -5,7 +5,7 @@
  * @name sp.i18n.spProperties
  *
  * @description
- * Service that allows you to provide multi lingual support for properties that can be used
+ * Provider that allows you to provide multi lingual support for properties that can be used
  * for labels etc.
  *
  * @example

@@ -1,8 +1,7 @@
 'use strict';
 var mocks = require('../../../mocks/sp/i18n/spPropertiesMock').mocks;
 
-/* jasmine e2e specs for the wizard directive, */
-describe('properties', function () {
+describe('spProperties', function () {
     beforeEach(function() {
         browser.get('/test/protractor/sp/i18n/spProperties.html');
     })
@@ -23,9 +22,9 @@ describe('properties', function () {
     }
 
     it('should be fetched for the given identifier and locale', function () {
-        expect(enUsProperties.count()).toBe(3);
-        expect(nlNlProperties.count()).toBe(3);
-        expect(deProperties.count()).toBe(3);
+        expect(enUsProperties.count()).toBe(4);
+        expect(nlNlProperties.count()).toBe(4);
+        expect(deProperties.count()).toBe(4);
     });
 
     it('should be fetched for the given identifier and locale and have the correct values', function () {
