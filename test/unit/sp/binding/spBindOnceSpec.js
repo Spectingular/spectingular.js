@@ -1,14 +1,13 @@
 'use strict';
 
 describe('bindOnce', function () {
-    var element, scope, timeout, sniffer;
+    var element, scope, timeout;
 
     beforeEach(function() {
         module('sp.binding');
-        inject(function($rootScope, $compile, $timeout, $sniffer) {
+        inject(function($rootScope, $compile, $timeout) {
             scope = $rootScope;
             timeout = $timeout;
-            sniffer = $sniffer;
             element = angular.element(
                 '<span sp-bind-once>{{model.value1}} - {{model.value2}}</span>'
             );

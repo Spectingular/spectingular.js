@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>spProperties Spec</title>
+    <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="/bower_components/angular/angular.js"></script>
+    <script src="/src/sp/sp.js"></script>
+    <script src="/src/sp/utility/spUtils.js"></script>
+    <script src="/src/sp/i18n/spProperties.js"></script>
+    <script src="/test/mocks/sp/i18n/spPropertiesMock.js"></script>
+
+    <script type="text/javascript">
+        angular.module("spProperties", ['sp.i18n']).
+                config(function (spPropertiesProvider) {
+                    spPropertiesProvider.add('identifier', mocks.properties.enUs, mocks.locales.enUs);
+                    spPropertiesProvider.add('identifier', mocks.properties.nlNl, mocks.locales.nlNl);
+                    spPropertiesProvider.add('identifier', mocks.properties.de, mocks.locales.de);
+                }).
+                controller('ctrl', ['$scope', 'spProperties', function ($scope, spProperties) {
+                    $scope.enUsProperties = spProperties.properties('identifier', mocks.locales.enUs);
+                    $scope.enUsProperty = spProperties.property('identifier', 'KEY_0001', mocks.locales.enUs);
+                    $scope.nlNlProperties = spProperties.properties('identifier', mocks.locales.nlNl);
+                    $scope.nlNlProperty = spProperties.property('identifier', 'KEY_0001', mocks.locales.nlNl);
+                    $scope.deProperties = spProperties.properties('identifier', mocks.locales.de);
+                    $scope.deProperty = spProperties.property('identifier', 'KEY_0001', mocks.locales.de);
+                }]);
+    </script>
+</head>
+<body ng-app="spProperties">
+<div ng-controller="ctrl">
+    <h1>English properties</h1>
+    <ul id="enUsProperties">
+        <li id='enUsProperties-{{key}}' ng-repeat="(key, value) in enUsProperties">key [{{key}}] - value [{{value}}]</li>
+    </ul>
+    <span id='enUsProperty-KEY-0001'>key [KEY-0001] - value [{{enUsProperty}}]</span>
+
+    <h1>Dutch properties</h1>
+    <ul id="nlNlProperties">
+        <li id='nlNlProperties-{{key}}' ng-repeat="(key, value) in nlNlProperties">key [{{key}}] - value [{{value}}]</li>
+    </ul>
+    <span id='nlNlProperty-KEY-0001'>key [KEY-0001] - value [{{nlNlProperty}}]</span>
+
+    <h1>German properties</h1>
+    <ul id="deProperties">
+        <li id='deProperties-{{key}}' ng-repeat="(key, value) in deProperties">key [{{key}}] - value [{{value}}]</li>
+    </ul>
+    <span id='deProperty-KEY-0001'>key [KEY-0001] - value [{{deProperty}}]</span>
+</div>
+</body>
+</html>

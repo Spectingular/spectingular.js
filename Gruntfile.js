@@ -105,10 +105,31 @@ module.exports = function (grunt) {
                 print: 'detail'
             }
         },
+        code_quality_report: {
+            all: {
+                options: {
+                    dir: 'results'
+                },
+                results: {
+                    junit: {
+                        report: 'results/junit/report.xml',
+                        details: false,
+                        coverage: 'results/junit/coverage/**/*.json'
+                    },
+                    jshint: 'results/jshint/jshint.xml',
+                    e2e: {
+                        report: 'results/protractor/report.xml',
+                        details: false,
+                        coverage: 'results/e2e/protractor/**/*.json'
+                    }
+                }
+            }
+        },
         concat: {
             all: {
                 files: {
                     'build/spectingular.js': [
+                        'src/sp/sp.js',
                         'src/sp/**/*.js'
                     ]
                 }
@@ -130,19 +151,28 @@ module.exports = function (grunt) {
             options: {
                 html5Mode: false,
                 title: 'App',
-                scripts: ['angular.js', 'bower_components/angular-sanitize/angular-sanitize.js', 'build/spectingular.js']
+                scripts: ['bower_components/jquery/dist/jquery.js', 'angular.js', 'build/spectingular.js']
             },
             api: {
                 src: ['build/spectingular.js', '.docs/index.ngdoc'],
                 title: 'API Documentation'
             }
+        },
+        coveralls: {
+            options: {
+                src: 'results/coverage/**/lcov.info',
+                force: false
+            },
+            all: {
+                src: 'results/coverage/protractor/lcov.info'
+            }
         }
     });
 
 
-    grunt.registerTask('travis', 'Run code quality checks on Travis CI and package', ['clean', 'jshint', 'karma', 'protractor:travis', 'package']);
-    grunt.registerTask('local', 'Run code quality checks locally and package', ['clean', 'package']);
-    grunt.registerTask('protractor', 'Run protractor tests with coverage on the given environment',  function (environment) {
+    grunt.registerTask('travis', 'Run code quality checks on Travis CI and package', ['clean', 'jshint', 'karma', 'protractor:travis', 'package', 'coveralls']);
+    grunt.registerTask('local', 'Run code quality checks locally and package', ['clean', 'force:on','jshint', 'karma', 'protractor:local', 'force:off', 'package']);
+    grunt.registerTask('protractor', 'Run protractor tests with coverage on the given environment', function (environment) {
         grunt.task.run([
             'instrument',
             'connect',
@@ -151,6 +181,6 @@ module.exports = function (grunt) {
         ]);
     });
     grunt.registerTask('package', 'Package the build files', ['concat', 'uglify']);
-    grunt.registerTask('docs', 'Run documentation generation', ['ngdocs']);
+    grunt.registerTask('docs', 'Run documentation generation', ['concat', 'ngdocs', 'connect', 'watch']);
 
 };

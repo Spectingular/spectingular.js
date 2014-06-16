@@ -2,13 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>BindOnce Spec</title>
+    <title>spBindOnce Spec</title>
     <script src="/bower_components/jquery/dist/jquery.min.js"></script>
     <script src="/bower_components/angular/angular.js"></script>
+    <script src="/src/sp/sp.js"></script>
     <script src="/src/sp/binding/spBindOnce.js"></script>
 
     <script type="text/javascript">
-        angular.module("binding", ['sp.binding']).
+        angular.module("spBindOnce", ['sp.binding']).
                 controller('ctrl', ['$scope', function ($scope) {
                     $scope.valid = true;
                     $scope.model = {
@@ -18,7 +19,7 @@
                 }]);
     </script>
 </head>
-<body ng-app="binding">
+<body ng-app="spBindOnce">
 <div ng-controller="ctrl">
 
     one way binding:<br/>

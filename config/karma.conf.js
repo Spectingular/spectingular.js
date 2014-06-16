@@ -7,6 +7,7 @@ module.exports = function (config) {
                 'bower_components/angular/angular.min.js',
                 'bower_components/angular-sanitize/angular-sanitize.min.js',
                 'bower_components/angular-mocks/angular-mocks.js',
+                'src/sp/**/sp.js',
                 'src/sp/**/*.js',
                 'test/mocks/sp/**/*.js',
                 'test/unit/sp/**/*.js'
@@ -25,11 +26,14 @@ module.exports = function (config) {
                 'src/sp/**/*.js': 'coverage'
             },
             junitReporter: {
-                outputFile: 'results/junit/junit.xml'
+                outputFile: 'results/junit/report.xml'
             },
             coverageReporter: {
-                type: 'html',
-                dir: 'results/coverage'
+                reporters: [
+                    {type: 'html', dir: 'results/junit/coverage'},
+                    {type: 'json', dir: 'results/junit/coverage'},
+                    {type: 'text-summary'}
+                ]
             },
             colors: true,
             logLevel: config.LOG_INFO,
