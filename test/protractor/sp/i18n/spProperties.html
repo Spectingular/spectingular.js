@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Properties Spec</title>
+    <title>spProperties Spec</title>
     <script src="/bower_components/jquery/dist/jquery.min.js"></script>
     <script src="/bower_components/angular/angular.js"></script>
     <script src="/src/sp/sp.js"></script>
@@ -11,7 +11,7 @@
     <script src="/test/mocks/sp/i18n/spPropertiesMock.js"></script>
 
     <script type="text/javascript">
-        angular.module("prop", ['sp.i18n']).
+        angular.module("spProperties", ['sp.i18n']).
                 config(function (spPropertiesProvider) {
                     spPropertiesProvider.add('identifier', mocks.properties.enUs, mocks.locales.enUs);
                     spPropertiesProvider.add('identifier', mocks.properties.nlNl, mocks.locales.nlNl);
@@ -27,7 +27,7 @@
                 }]);
     </script>
 </head>
-<body ng-app="prop">
+<body ng-app="spProperties">
 <div ng-controller="ctrl">
     <h1>English properties</h1>
     <ul id="enUsProperties">
