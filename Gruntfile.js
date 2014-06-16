@@ -181,6 +181,6 @@ module.exports = function (grunt) {
         ]);
     });
     grunt.registerTask('package', 'Package the build files', ['concat', 'uglify']);
-    grunt.registerTask('docs', 'Run documentation generation', ['concat', 'ngdocs', 'connect', 'watch']);
+    grunt.registerTask('docs', 'Run documentation generation', ['ngdocs']);
 
 };
