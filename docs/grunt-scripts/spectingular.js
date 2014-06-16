@@ -52,339 +52,6 @@ angular.module('sp.binding').directive('spBindOnce', ['$timeout', function ($tim
         }
     };
 }]);
-"use strict";
-
-/**
- * @ngdoc service
- * @name sp.binding.spKeyBinder
- * @requires sp.binding.spKeyBinderConfig
- *
- * @description
- * The `spKeyBinder` service is a utility Spectingular service that facilitates the binding and unbinding
- * of events to dom element. It makes it possible to bind multiple key combinations to an event and on multiple
- * elements.
- *
- * # General usage
- * The bind and unbind functions of the `spKeyBinder` service have one mandatory argument — the key combination - and one
- * optional argument - a configuration object —.
- * The `spKeyBinder` service is provided with default options from the `spKeyBinderConfig` provider.
- * By default the event type is `keydown`.
- *
- * ####*Bind the key combination using the  default options.*
- * ```js
- *   spKeyBinder.bind('ctrl+shift+x);
- * ```
- * ####*Bind the key combination using the default targe option and the overriden type.*
- * ```js
- *   spKeyBinder.bind('ctrl+shift+x, {type: 'keyup'});
- * ```
- * ####*Bind the key combination using the overriden type and target.*
- * ```js
- *   spKeyBinder.bind('ctrl+shift+x, {target: 'x', type: 'keyup'});
- * ```
- *
- * @example
- <example module="spKeyBinderExample">
- <file name="index.html">
- <div ng-controller="ctrl">
- <span>Pressing the escape key should trigger a broadcast event</span><br />
- <input type="text" id="x" placeholder="key combination ctrl+shift+x should trigger a broadcast event"/><br />
- <div id="y">Clicking here should trigger a broadcast event</div><br /><br />
- <h1>events</h1>
- <ul>
- <li ng-repeat="event in model.events track by $index">{{event}}</li>
- </ul>
- </div>
- </file>
-
- <file name="scripts.js">
- angular.module("spKeyBinderExample", ['sp.binding']).
- controller('ctrl', function($scope, spKeyBinder) {
-             spKeyBinder.bind('escape');
-             spKeyBinder.bind('ctrl+shift+x', {
-                target: 'x',
-                type: 'keydown'
-             });
-             spKeyBinder.bind(undefined, {
-                target: 'y',
-                type: 'click'
-             });
-
-             $scope.model = {events: []};
-             $scope.$on('keydown-escape', function(event) {
-                $scope.model.events.push('keydown-escape');
-                $scope.$apply();
-             });
-             $scope.$on('keydown-ctrl+shift+x', function(event) {
-                $scope.model.events.push('keydown-ctrl+shift+x');
-                $scope.$apply();
-             });
-             $scope.$on('click', function(event) {
-                $scope.model.events.push('click');
-                $scope.$apply();
-             });
-          });
- </file>
- </example>
- */
-angular.module('sp.binding').factory('spKeyBinder', ['$rootScope', '$document', 'spKeyBinderConfig', function ($rootScope, $document, spKeyBinderConfig) {
-    var handlers = {};
-
-    /**
-     * Execute the callback with the correct information.
-     * @param keyCombination The key combination to which the event will be bound.
-     * @param options The options that need to be merged with the default options.
-     * @param callback The callback function.
-     */
-    function execute(keyCombination, options, callback) {
-        options = angular.extend({}, spKeyBinderConfig.defaultOptions(), options); // extend the options
-        var element = angular.isString(options.target) ? angular.element(document.querySelector('#' + options.target)) : options.target;
-
-
-        // check if a key combination was specified.
-        if (angular.isUndefined(keyCombination)) {
-            keyCombination = 'mousedown';
-        }
-
-        callback(keyCombination, options, element);
-    }
-
-    /**
-     * @ngdoc method
-     * @name sp.binding.spKeyBinder#bind
-     * @methodOf sp.binding.spKeyBinder
-     * @description Bind the event to the given target for the given key combination.
-     * @param {string} keyCombination The key combination.
-     * @param {Object=} options The options.
-     */
-    function bind(keyCombination, options) {
-        execute(keyCombination, options, function (keyCombination, options, element) {
-            var target = options.target === $document ? 'document' : options.target;
-            var bind = false;
-
-            // check for type
-            if (angular.isUndefined(handlers[options.type])) { // no handler for the given type has been registered yet
-                handlers[options.type] = {
-                    count: 0 // total number of bind registrations
-                };
-                handlers[options.type].elements = {};
-            }
-
-            // check for element
-            if (angular.isUndefined(handlers[options.type].elements[target])) {
-                bind = true;
-                handlers[options.type].elements[target] = {
-                    count: 0,
-                    keyCombinations: {}
-                };
-            }
-
-            // check for key combination
-            if (angular.isUndefined(handlers[options.type].elements[target].keyCombinations[keyCombination])) {
-                handlers[options.type].count++;
-
-                handlers[options.type].elements[target].count++;
-                handlers[options.type].elements[target].keyCombinations[keyCombination] = 1;
-            } else {
-                handlers[options.type].count++;
-                handlers[options.type].elements[target].count++;
-                handlers[options.type].elements[target].keyCombinations[keyCombination]++;
-            }
-
-            if (bind) {
-                element.on(options.type, function (event) { // do the actual binding
-                    var origin = angular.isDefined(event.delegateTarget.id) ? event.delegateTarget.id : 'document';
-                    var keyCombinations = handlers[options.type].elements[origin].keyCombinations;
-
-                    for (var kc in keyCombinations) {
-                        var keys = kc.split("+");
-                        // check the pressed modifiers
-                        var modifiers = {
-                            shift: keys.indexOf('shift') > -1,
-                            ctrl: keys.indexOf('ctrl') > -1,
-                            alt: keys.indexOf('alt') > -1
-                        };
-                        var keyCode = event.keyCode ? event.keyCode : event.which ? event.which : undefined;
-                        var character = String.fromCharCode(keyCode).toLowerCase();
-                        var specialKey = keys.length === 1 ? spKeyBinderConfig.specialKeys()[kc] : undefined;
-                        // broadcast the event if the key combination matches
-                        if ((modifiers.shift === (event.shiftKey ? true : false)) && // do we require shift and is it pressed?
-                            (modifiers.ctrl === (event.ctrlKey ? true : false)) && // do we require ctrl and is it pressed?
-                            (modifiers.alt === (event.altKey ? true : false)) && // do we require alt and is it pressed?
-                            (
-                                keys.indexOf(character) > -1 || // does the character match
-                                    (angular.isDefined(specialKey) && specialKey === keyCode)) // or does it match a special key
-                            ) {
-
-                            var eventName = event.type;
-                            // if we have a defined a key combination append it to the event name.
-                            if (keyCode !== 1) {
-                                eventName = eventName + '-' + kc;
-                            }
-                            $rootScope.$broadcast(eventName);
-                        }
-                    }
-                });
-            }
-        });
-    }
-
-    /**
-     * @ngdoc method
-     * @name sp.binding.spKeyBinder#unbind
-     * @methodOf sp.binding.spKeyBinder
-     * @description Unbind the event to the given target for the given key combination.
-     * @param {string} keyCombination The key combination.
-     * @param {Object=} options The options.
-     */
-    function unbind(keyCombination, options) {
-        execute(keyCombination, options, function (keyCombination, options, element) {
-            var target = options.target === $document ? 'document' : options.target;
-
-            if (angular.isDefined(handlers[options.type]) &&
-                angular.isDefined(handlers[options.type].elements[target]) &&
-                angular.isDefined(handlers[options.type].elements[target].keyCombinations[keyCombination])) {
-
-                handlers[options.type].elements[target].keyCombinations[keyCombination]--;
-                handlers[options.type].elements[target].count--;
-                handlers[options.type].count--;
-
-                if (handlers[options.type].elements[target].keyCombinations[keyCombination] === 0) {
-                    delete handlers[options.type].elements[target].keyCombinations[keyCombination];
-                }
-                if (handlers[options.type].elements[target].count === 0) {
-                    delete handlers[options.type].elements[target];
-                    element.off(options.type);
-                }
-                if (handlers[options.type].count === 0) {
-                    delete  handlers[options.type];
-                }
-            }
-        });
-    }
-
-    return {
-        handlers: handlers,
-        bind: bind,
-        unbind: unbind
-    };
-}]);
-"use strict";
-
-/**
- * @ngdoc service
- * @name sp.binding.spKeyBinderConfig
- *
- * @description
- * Service that provides the default options for the spKeyBinder. It also allows you to override
- * the defaults.
-
- */
-angular.module('sp.binding').provider('spKeyBinderConfig',function () {
-    /**
-     * @ngdoc service
-     * @name sp.binding.spKeyBinderConfigProvider
-     *
-     * @description
-     * Provider that allows you to override default options.
-     */
-    this.defaultOptions = {
-        'type': 'keydown'
-    };
-
-    this.specialKeys = {
-        'mousedown': 1,
-        'backspace': 8,
-        'tab': 9,
-        'enter': 13,
-        'break': 19,
-        'capslock': 20,
-        'escape': 27,
-        'space': 32,
-        'pageup': 33,
-        'pagedown': 34,
-        'end': 35,
-        'home': 36,
-        'left': 37,
-        'up': 38,
-        'right': 39,
-        'down': 40,
-        'insert': 45,
-        'delete': 46,
-        'numlock': 144,
-        'scroll': 145,
-        'f1': 112,
-        'f2': 113,
-        'f3': 114,
-        'f4': 115,
-        'f5': 116,
-        'f6': 117,
-        'f7': 118,
-        'f8': 119,
-        'f9': 120,
-        'f10': 121,
-        'f11': 122,
-        'f12': 123
-    };
-    /**
-     * @ngdoc method
-     * @name sp.binding.spKeyBinderConfigProvider#setDefaultTarget
-     * @methodOf sp.binding.spKeyBinderConfigProvider
-     *
-     * @description
-     * Override the default target to which the spKeyBinder will register the events.
-     * @param {String} target The target.
-     */
-    this.setDefaultTarget = function (target) {
-        this.defaultOptions.target = target;
-    };
-    /**
-     * @ngdoc method
-     * @name sp.binding.spKeyBinderConfigProvider#setDefaultType
-     * @methodOf sp.binding.spKeyBinderConfigProvider
-     *
-     * @description
-     * Override the default type to which the event will be bound.
-     * @param {String} type The type
-     */
-    this.setDefaultType = function (type) {
-        this.defaultOptions.type = type;
-    }
-
-    this.$get = ['$document', function ($document) {
-        var defaultOptions = this.defaultOptions;
-        var specialKeys = this.specialKeys;
-        if (angular.isUndefined(defaultOptions.target)) {
-            defaultOptions.target = $document; // set the default target to $document.
-        }
-        return {
-            /**
-             * @ngdoc method
-             * @name sp.binding.spKeyBinderConfig#defaultOptions
-             * @methodOf sp.binding.spKeyBinderConfig
-             *
-             * @description
-             * Gets the spKeyBinder default options
-             * @returns {Object} defaultOptions The default options
-             */
-            defaultOptions: function () {
-                return defaultOptions;
-            },
-            /**
-             * @ngdoc method
-             * @name sp.binding.spKeyBinderConfig#specialKeys
-             * @methodOf sp.binding.spKeyBinderConfig
-             *
-             * @description
-             * Gets the spKeyBinder special keys
-             * @returns {Object} specialKeys The special keys
-             */
-            specialKeys: function () {
-                return specialKeys;
-            }
-        }
-    }];
-})
 'use strict';
 
 /**
@@ -495,6 +162,41 @@ angular.module('sp.i18n').provider('spProperties', function () {
         };
     }];
 });
+'use strict';
+
+/**
+ * @ngdoc filter
+ * @name sp.utility.filter:spTrusted
+ *
+ * @description
+ * Filter for trusting html.
+ *
+ * @example
+ <example module="spTrustedExample">
+    <file name="index.html">
+       <div ng-controller="ctrl">
+          <h3>trusted</h3>
+          <div ng-bind-html="snippet | spTrusted"></div>
+          <h3>untrusted</h3>
+          <div ng-bind-html="snippet"></div>
+       </div>
+    </file>
+
+    <file name="scripts.js">
+       angular.module('spTrustedExample', ['sp.utility']).
+          controller('ctrl', function($scope) {
+             $scope.snippet = '<p style="color:blue">an html\n<em onmouseover="this.textContent=\'PWN3D!\'">hover</em>\nsnippet</p>';
+          });
+ </file>
+ </example>
+ **/
+
+angular.module('sp.utility')
+    .filter('spTrusted', ['$sce', function ($sce) {
+        return function (text) {
+            return $sce.trustAsHtml(text);
+        };
+    }]);
 'use strict';
 
 /**
