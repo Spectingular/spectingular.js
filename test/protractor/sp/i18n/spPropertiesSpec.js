@@ -1,5 +1,5 @@
 'use strict';
-var mocks = require('../../../mocks/sp/i18n/spPropertiesMock').mocks;
+var mocks = require('../../../mocks/sp/i18n/spPropertiesMock').spPropertiesMocks;
 
 describe('spProperties', function () {
     beforeEach(function() {

@@ -1,4 +1,4 @@
-var mocks = {
+var spPropertiesMocks = {
     locales: {
         enUs: 'en-us',
         nlNl: 'nl-nl',
@@ -29,5 +29,5 @@ var mocks = {
 };
 
 module.exports = {
-    mocks: mocks
+    spPropertiesMocks: spPropertiesMocks
 };
