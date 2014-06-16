@@ -1,9 +1,9 @@
-var mocks = {
+var spTrustedMocks = {
     snippet: '<p style="color:blue">an html\n<em onmouseover="this.textContent=\'PWN3D!\'">hover</em>\nsnippet</p>',
     unsafe: 'this.textContent=\'PWN3D!\'',
-    safe: undefined
+    safe: ''
 };
 
 module.exports = {
-    mocks: mocks
+    spTrustedMocks: spTrustedMocks
 };

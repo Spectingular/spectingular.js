@@ -27,7 +27,7 @@
  </example>
  **/
 
-angular.module('sp.utility', ['ngSanitize'])
+angular.module('sp.utility')
     .filter('spTrusted', ['$sce', function ($sce) {
         return function (text) {
             return $sce.trustAsHtml(text);

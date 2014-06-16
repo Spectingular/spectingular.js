@@ -1,6 +1,6 @@
 'use strict';
 
-var mocks = require('../../../mocks/sp/utility/spTrustedMock').mocks;
+var mocks = require('../../../mocks/sp/utility/spTrustedMock').spTrustedMocks;
 
 describe('spTrusted filter', function () {
     beforeEach(function () {
@@ -12,6 +12,6 @@ describe('spTrusted filter', function () {
     });
 
     it('should not trust unsafe html', function () {
-        expect(element(by.id('untrusted')).element(by.tagName('em')).getAttribute('onmouseover')).toEqual(mocks.safe);
+        expect(element(by.id('untrusted')).getInnerHtml()).toEqual(mocks.safe);
     });
 });
