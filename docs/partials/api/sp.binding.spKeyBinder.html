@@ -1,0 +1,92 @@
+<h1><code ng:non-bindable="">spKeyBinder</code>
+<div><span class="hint">service in module <code ng:non-bindable="">sp.binding</code>
+</span>
+</div>
+</h1>
+<div><h2 id="description">Description</h2>
+<div class="description"><div class="sp-binding-spkeybinder-page"><p>The <code>spKeyBinder</code> service is a utility Spectingular service that facilitates the binding and unbinding
+of events to dom element. It makes it possible to bind multiple key combinations to an event and on multiple
+elements.</p>
+<h3 id="description_general-usage">General usage</h3>
+<p>The bind and unbind functions of the <code>spKeyBinder</code> service have one mandatory argument — the key combination - and one
+optional argument - a configuration object —.
+The <code>spKeyBinder</code> service is provided with default options from the <code>spKeyBinderConfig</code> provider.
+By default the event type is <code>keydown</code>.</p>
+<h6 id="description_general-usage"><em>Bind the key combination using the  default options.</em></h6>
+<pre><code class="lang-js">  spKeyBinder.bind(&#39;ctrl+shift+x);</code></pre>
+<h6 id="description_general-usage"><em>Bind the key combination using the default targe option and the overriden type.</em></h6>
+<pre><code class="lang-js">  spKeyBinder.bind(&#39;ctrl+shift+x, {type: &#39;keyup&#39;});</code></pre>
+<h6 id="description_general-usage"><em>Bind the key combination using the overriden type and target.</em></h6>
+<pre><code class="lang-js">  spKeyBinder.bind(&#39;ctrl+shift+x, {target: &#39;x&#39;, type: &#39;keyup&#39;});</code></pre>
+</div></div>
+<h2 id="dependencies">Dependencies</h2>
+<ul class="dependencies"><li><code ng:non-bindable=""><a href="#/api/sp.binding.spKeyBinderConfig">spKeyBinderConfig</a></code>
+</li>
+</ul>
+<div class="member method"><h2 id="methods">Methods</h2>
+<ul class="methods"><li><h3 id="methods_bind">bind(keyCombination, options)</h3>
+<div class="bind"><div class="sp-binding-spkeybinder-bind-page"><p>Bind the event to the given target for the given key combination.</p>
+</div><h5 id="methods_bind_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>keyCombination</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="sp-binding-spkeybinder-bind-page"><p>The key combination.</p>
+</div></td></tr><tr><td>options <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-object">Object</a></td><td><div class="sp-binding-spkeybinder-bind-page"><p>The options.</p>
+</div></td></tr></tbody></table></div>
+</li>
+<li><h3 id="methods_unbind">unbind(keyCombination, options)</h3>
+<div class="unbind"><div class="sp-binding-spkeybinder-unbind-page"><p>Unbind the event to the given target for the given key combination.</p>
+</div><h5 id="methods_unbind_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>keyCombination</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="sp-binding-spkeybinder-unbind-page"><p>The key combination.</p>
+</div></td></tr><tr><td>options <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-object">Object</a></td><td><div class="sp-binding-spkeybinder-unbind-page"><p>The options.</p>
+</div></td></tr></tbody></table></div>
+</li>
+</ul>
+</div>
+<h2 id="example">Example</h2>
+<div class="example"><div class="sp-binding-spkeybinder-page"><h4 id="example_source">Source</h4>
+<div source-edit="spKeyBinderExample" source-edit-deps="angular.js scripts.js" source-edit-html="index.html-0" source-edit-css="" source-edit-js="scripts.js" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
+<div class="tabbable"><div class="tab-pane" title="index.html">
+<pre class="prettyprint linenums" ng-set-text="index.html-0" ng-html-wrap-loaded="spKeyBinderExample angular.js scripts.js"></pre>
+<script type="text/ng-template" id="index.html-0">
+<div ng-controller="ctrl">
+<span>Pressing the escape key should trigger a broadcast event</span><br />
+<input type="text" id="x" placeholder="key combination ctrl+shift+x should trigger a broadcast event"/><br />
+<div id="y">Clicking here should trigger a broadcast event</div><br /><br />
+<h3 id="example_events">events</h3>
+<ul>
+<li ng-repeat="event in model.events track by $index">{{event}}</li>
+</ul>
+</div>
+</script>
+</div>
+<div class="tab-pane" title="scripts.js">
+<pre class="prettyprint linenums" ng-set-text="scripts.js"></pre>
+<script type="text/ng-template" id="scripts.js">
+angular.module("spKeyBinderExample", ['sp.binding']).
+controller('ctrl', function($scope, spKeyBinder) {
+            spKeyBinder.bind('escape');
+            spKeyBinder.bind('ctrl+shift+x', {
+               target: 'x',
+               type: 'keydown'
+            });
+            spKeyBinder.bind(undefined, {
+               target: 'y',
+               type: 'click'
+            });
+
+            $scope.model = {events: []};
+            $scope.$on('keydown-escape', function(event) {
+               $scope.model.events.push('keydown-escape');
+               $scope.$apply();
+            });
+            $scope.$on('keydown-ctrl+shift+x', function(event) {
+               $scope.model.events.push('keydown-ctrl+shift+x');
+               $scope.$apply();
+            });
+            $scope.$on('click', function(event) {
+               $scope.model.events.push('click');
+               $scope.$apply();
+            });
+         });
+</script>
+</div>
+</div><h4 id="example_events_demo">Demo</h4>
+<div class="well doc-example-live animate-container" ng-embed-app="spKeyBinderExample" ng-set-html="index.html-0" ng-eval-javascript="scripts.js"></div>
+</div></div>
+</div>

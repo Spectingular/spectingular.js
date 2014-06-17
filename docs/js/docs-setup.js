@@ -23,6 +23,33 @@ NG_DOCS={
     },
     {
       "section": "api",
+      "id": "sp.binding.spKeyBinder",
+      "shortName": "sp.binding.spKeyBinder",
+      "type": "service",
+      "moduleName": "sp.binding",
+      "shortDescription": "The spKeyBinder service is a utility Spectingular service that facilitates the binding and unbinding",
+      "keywords": "$apply $index $on $scope angular api argument bind binding broadcast click combination combinations configuration controller ctrl default dom element elements escape event events facilitates function functions general html js key keycombination keydown keydown-ctrl keydown-escape keyup mandatory method model module multiple ng-controller ng-repeat object option optional options overriden placeholder provided provider push scripts service sp spectingular spkeybinder spkeybinderconfig spkeybinderexample targe target text track trigger type unbind unbinding usage utility"
+    },
+    {
+      "section": "api",
+      "id": "sp.binding.spKeyBinderConfig",
+      "shortName": "sp.binding.spKeyBinderConfig",
+      "type": "service",
+      "moduleName": "sp.binding",
+      "shortDescription": "Service that provides the default options for the spKeyBinder. It also allows you to override",
+      "keywords": "allows api binding default defaultoptions defaults method options override service sp special specialkeys spkeybinder spkeybinderconfig"
+    },
+    {
+      "section": "api",
+      "id": "sp.binding.spKeyBinderConfigProvider",
+      "shortName": "sp.binding.spKeyBinderConfigProvider",
+      "type": "service",
+      "moduleName": "sp.binding",
+      "shortDescription": "Provider that allows you to override default options.",
+      "keywords": "allows api binding bound default event events method options override provider register service setdefaulttarget setdefaulttype sp spkeybinder spkeybinderconfigprovider target type"
+    },
+    {
+      "section": "api",
       "id": "sp.i18n.spProperties",
       "shortName": "sp.i18n.spProperties",
       "type": "service",
@@ -38,15 +65,6 @@ NG_DOCS={
       "moduleName": "sp.i18n",
       "shortDescription": "Provider that allows you to add properties for a given identifier and locale.",
       "keywords": "add adds allows api i18n identifier key local locale localeidentifier matching method properties property provider service sp sppropertiesprovider"
-    },
-    {
-      "section": "api",
-      "id": "sp.utility.filter:spTrusted",
-      "shortName": "spTrusted",
-      "type": "filter",
-      "moduleName": "sp.utility",
-      "shortDescription": "Filter for trusting html.",
-      "keywords": "$scope angular api color controller ctrl filter function html js module ng-bind-html ng-controller onmouseover pwn3d scripts snippet sp sptrusted sptrustedexample style textcontent trusting utility"
     },
     {
       "section": "api",
