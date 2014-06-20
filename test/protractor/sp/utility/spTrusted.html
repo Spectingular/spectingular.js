@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>spTrusted Spec</title>
+    <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="/bower_components/angular/angular.js"></script>
+    <script src="/bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="/src/sp/sp.js"></script>
+    <script src="/src/sp/utility/spTrusted.js"></script>
+
+    <script type="text/javascript">
+        angular.module("spTrusted", ['sp.utility']).
+                controller('ctrl', ['$scope', function ($scope) {
+                    $scope.snippet = '<p style="color:blue">an html\n<em onmouseover="this.textContent=\'PWN3D!\'">hover</em>\nsnippet</p>';
+                }]);
+    </script>
+</head>
+<body ng-app="spTrusted">
+<div ng-controller="ctrl">
+    trusted:<br/>
+    <div id="trusted" ng-bind-html="snippet | spTrusted"></div><br/>
+
+    untrusted:<br/>
+    <div id="untrusted" ng-bind-html="snippet"></div><br/>
+</div>
+</body>
+</html>

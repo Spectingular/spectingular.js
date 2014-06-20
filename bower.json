@@ -1,10 +1,11 @@
 {
-    "name": "SpectingularJS",
-    "version": "0.0.0",
-    "devDependencies": {
-        "angular": "~1.2.16",
-        "angular-mocks": "~1.2.16",
-        "bootstrap": "~3.1.1",
-        "jasmine-jquery": "~2.0.3"
+  "name": "SpectingularJS",
+  "version": "0.0.0",
+  "devDependencies": {
+    "angular": "~1.2.16",
+    "angular-sanitize": "~1.2.16",
+    "angular-mocks": "~1.2.16",
+    "bootstrap": "~3.1.1",
+    "jasmine-jquery": "~2.0.3"
     }
 }

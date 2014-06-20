@@ -13,17 +13,17 @@
     <script type="text/javascript">
         angular.module("spProperties", ['sp.i18n']).
                 config(function (spPropertiesProvider) {
-                    spPropertiesProvider.add('identifier', mocks.properties.enUs, mocks.locales.enUs);
-                    spPropertiesProvider.add('identifier', mocks.properties.nlNl, mocks.locales.nlNl);
-                    spPropertiesProvider.add('identifier', mocks.properties.de, mocks.locales.de);
+                    spPropertiesProvider.add('identifier', spPropertiesMocks.properties.enUs, spPropertiesMocks.locales.enUs);
+                    spPropertiesProvider.add('identifier', spPropertiesMocks.properties.nlNl, spPropertiesMocks.locales.nlNl);
+                    spPropertiesProvider.add('identifier', spPropertiesMocks.properties.de, spPropertiesMocks.locales.de);
                 }).
                 controller('ctrl', ['$scope', 'spProperties', function ($scope, spProperties) {
-                    $scope.enUsProperties = spProperties.properties('identifier', mocks.locales.enUs);
-                    $scope.enUsProperty = spProperties.property('identifier', 'KEY_0001', mocks.locales.enUs);
-                    $scope.nlNlProperties = spProperties.properties('identifier', mocks.locales.nlNl);
-                    $scope.nlNlProperty = spProperties.property('identifier', 'KEY_0001', mocks.locales.nlNl);
-                    $scope.deProperties = spProperties.properties('identifier', mocks.locales.de);
-                    $scope.deProperty = spProperties.property('identifier', 'KEY_0001', mocks.locales.de);
+                    $scope.enUsProperties = spProperties.properties('identifier', spPropertiesMocks.locales.enUs);
+                    $scope.enUsProperty = spProperties.property('identifier', 'KEY_0001', spPropertiesMocks.locales.enUs);
+                    $scope.nlNlProperties = spProperties.properties('identifier', spPropertiesMocks.locales.nlNl);
+                    $scope.nlNlProperty = spProperties.property('identifier', 'KEY_0001', spPropertiesMocks.locales.nlNl);
+                    $scope.deProperties = spProperties.properties('identifier', spPropertiesMocks.locales.de);
+                    $scope.deProperty = spProperties.property('identifier', 'KEY_0001', spPropertiesMocks.locales.de);
                 }]);
     </script>
 </head>
