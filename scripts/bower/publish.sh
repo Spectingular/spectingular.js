@@ -45,7 +45,7 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
     cp $BUILD_DIR/*.js .
 
     # updating bower.json
-    sed -i '' -e 's/"*\(version\)"*[ ]*:[ ]*"*.*"*/"\1": "'$NEW_VERSION'"/' bower.json
+    sed -i '' -e 's/"*\(version\)"*[ ]*:[ ]*"*.*"*/"\1": "'$NEW_VERSION'",/' bower.json
 
     # adding all changed files
     git add -A
