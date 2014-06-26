@@ -27,8 +27,8 @@ NG_DOCS={
       "shortName": "sp.binding.spKeyBinder",
       "type": "service",
       "moduleName": "sp.binding",
-      "shortDescription": "The spKeyBinder service is a utility Spectingular service that facilitates the binding and unbinding",
-      "keywords": "$apply $index $on $scope angular api argument bind binding broadcast click combination combinations configuration controller ctrl default dom element elements escape event events facilitates function functions general html js key keycombination keydown keydown-ctrl keydown-escape keyup mandatory method model module multiple ng-controller ng-repeat object option optional options overriden placeholder provided provider push scripts service sp spectingular spkeybinder spkeybinderconfig spkeybinderexample targe target text track trigger type unbind unbinding usage utility"
+      "shortDescription": "The spKeyBinder service is a utility service that facilitates the binding and unbinding",
+      "keywords": "$apply $index $on $scope angular api argument arguments bind binding broadcast callback click combination combinations configuration controller ctrl default dom element elements entered escape event events executed facilitates function functions general html js key keycombination keydown keydown-ctrl keydown-escape mandatory matches method model module mousedown multiple ng-controller ng-repeat object optional options override placeholder provided provider push scripts service sp spkeybinder spkeybinderconfig spkeybinderexample target text track trigger triggered type unbind unbinding undefined usage utility"
     },
     {
       "section": "api",

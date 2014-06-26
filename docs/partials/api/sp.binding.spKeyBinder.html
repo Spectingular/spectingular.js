@@ -4,29 +4,33 @@
 </div>
 </h1>
 <div><h2 id="description">Description</h2>
-<div class="description"><div class="sp-binding-spkeybinder-page"><p>The <code>spKeyBinder</code> service is a utility Spectingular service that facilitates the binding and unbinding
-of events to dom element. It makes it possible to bind multiple key combinations to an event and on multiple
+<div class="description"><div class="sp-binding-spkeybinder-page"><p>The <code>spKeyBinder</code> service is a utility service that facilitates the binding and unbinding
+of key combination events to dom elements. It makes it possible to bind multiple key combinations to an key type and on multiple
 elements.</p>
 <h3 id="description_general-usage">General usage</h3>
-<p>The bind and unbind functions of the <code>spKeyBinder</code> service have one mandatory argument — the key combination - and one
-optional argument - a configuration object —.
-The <code>spKeyBinder</code> service is provided with default options from the <code>spKeyBinderConfig</code> provider.
+<p>The bind and unbind functions of the <code>spKeyBinder</code> service has:</p>
+<ul>
+<li>one mandatory argument — the key combination</li>
+<li>two optional arguments<ul>
+<li><strong><code>callback</code></strong> - a function that is triggered when the key combination on the element is entered</li>
+<li><strong><code>options</code></strong> - a configuration object that makes it possible to override the default options</li>
+</ul>
+</li>
+</ul>
+<p>The <code>spKeyBinder</code> service is provided with default options from the <code>spKeyBinderConfig</code> provider.
 By default the event type is <code>keydown</code>.</p>
-<h6 id="description_general-usage"><em>Bind the key combination using the  default options.</em></h6>
-<pre><code class="lang-js">  spKeyBinder.bind(&#39;ctrl+shift+x);</code></pre>
-<h6 id="description_general-usage"><em>Bind the key combination using the default targe option and the overriden type.</em></h6>
-<pre><code class="lang-js">  spKeyBinder.bind(&#39;ctrl+shift+x, {type: &#39;keyup&#39;});</code></pre>
-<h6 id="description_general-usage"><em>Bind the key combination using the overriden type and target.</em></h6>
-<pre><code class="lang-js">  spKeyBinder.bind(&#39;ctrl+shift+x, {target: &#39;x&#39;, type: &#39;keyup&#39;});</code></pre>
+<p>The <code>spKeyBinder</code> can also be used without any key combination. If now key combination (undefined) is provided when binding, the key combination will be
+<strong><code>mousedown</code></strong>.</p>
 </div></div>
 <h2 id="dependencies">Dependencies</h2>
 <ul class="dependencies"><li><code ng:non-bindable=""><a href="#/api/sp.binding.spKeyBinderConfig">spKeyBinderConfig</a></code>
 </li>
 </ul>
 <div class="member method"><h2 id="methods">Methods</h2>
-<ul class="methods"><li><h3 id="methods_bind">bind(keyCombination, options)</h3>
-<div class="bind"><div class="sp-binding-spkeybinder-bind-page"><p>Bind the event to the given target for the given key combination.</p>
+<ul class="methods"><li><h3 id="methods_bind">bind(keyCombination, callback, options)</h3>
+<div class="bind"><div class="sp-binding-spkeybinder-bind-page"><p>Bind the key combination to the given target using the given options.</p>
 </div><h5 id="methods_bind_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>keyCombination</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="sp-binding-spkeybinder-bind-page"><p>The key combination.</p>
+</div></td></tr><tr><td>callback <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-function">function</a></td><td><div class="sp-binding-spkeybinder-bind-page"><p>The callback that is executed when the entered key combination matches. If no callback function is provided, an event will be broadcast.</p>
 </div></td></tr><tr><td>options <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-object">Object</a></td><td><div class="sp-binding-spkeybinder-bind-page"><p>The options.</p>
 </div></td></tr></tbody></table></div>
 </li>
@@ -61,11 +65,14 @@ By default the event type is <code>keydown</code>.</p>
 angular.module("spKeyBinderExample", ['sp.binding']).
 controller('ctrl', function($scope, spKeyBinder) {
             spKeyBinder.bind('escape');
-            spKeyBinder.bind('ctrl+shift+x', {
+            spKeyBinder.bind('ctrl+shift+x', function() {
+               $scope.model.events.push('keydown-ctrl+shift+x');
+               $scope.$apply();
+            }, {
                target: 'x',
                type: 'keydown'
             });
-            spKeyBinder.bind(undefined, {
+            spKeyBinder.bind(undefined, undefined, {
                target: 'y',
                type: 'click'
             });
@@ -73,10 +80,6 @@ controller('ctrl', function($scope, spKeyBinder) {
             $scope.model = {events: []};
             $scope.$on('keydown-escape', function(event) {
                $scope.model.events.push('keydown-escape');
-               $scope.$apply();
-            });
-            $scope.$on('keydown-ctrl+shift+x', function(event) {
-               $scope.model.events.push('keydown-ctrl+shift+x');
                $scope.$apply();
             });
             $scope.$on('click', function(event) {
