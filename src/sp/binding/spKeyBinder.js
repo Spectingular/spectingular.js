@@ -147,11 +147,21 @@ angular.module('sp.binding').factory('spKeyBinder', ['$rootScope', '$document', 
                             alt: keys.indexOf('alt') > -1
                         };
 
-                        //remove special keys
+                        // remove modifiers
+                        if( keys.indexOf('shift') > -1) {
+                            keys.splice(keys.indexOf('shift'), 1)
+                        }
+                        if( keys.indexOf('ctrl') > -1) {
+                            keys.splice(keys.indexOf('ctrl'), 1)
+                        }
+                        if( keys.indexOf('alt') > -1) {
+                            keys.splice(keys.indexOf('alt'), 1)
+                        }
 
                         var keyCode = event.keyCode ? event.keyCode : event.which ? event.which : undefined;
                         var character = String.fromCharCode(keyCode).toLowerCase();
-                        var specialKey = keys.length === 1 ? spKeyBinderConfig.specialKeys()[kc] : undefined;
+                        var specialKey = spKeyBinderConfig.specialKeys()[keys];
+
                         // broadcast the event if the key combination matches
                         if ((modifiers.shift === (event.shiftKey ? true : false)) && // do we require shift and is it pressed?
                             (modifiers.ctrl === (event.ctrlKey ? true : false)) && // do we require ctrl and is it pressed?

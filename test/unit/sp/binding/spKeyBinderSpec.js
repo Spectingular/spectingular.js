@@ -131,12 +131,12 @@ describe('The spKeyBinder service', function () {
         var context = {
             type: 'keydown',
             target: 'document',
-            keyCombination: 'escape',
-            broadcastEventName: 'keydown-escape',
-            ctrlKey: 0,
-            shiftKey: 0,
-            altKey: 0,
-            keyCode: 27
+            keyCombination: 'shift+tab+ctrl+alt',
+            broadcastEventName: 'keydown-shift+tab+ctrl+alt',
+            ctrlKey: 1,
+            shiftKey: 1,
+            altKey: 1,
+            keyCode: 9
         }
 
         beforeEach(function () {
@@ -361,7 +361,6 @@ describe('The spKeyBinder service', function () {
         callbackTriggerTests(context);
         testUnbinding(context);
     })
-
 
     describe('that uses an undefined key for binding with with override options', function () {
         var context = {
