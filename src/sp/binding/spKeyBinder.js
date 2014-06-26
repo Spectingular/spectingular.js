@@ -6,28 +6,23 @@
  * @requires sp.binding.spKeyBinderConfig
  *
  * @description
- * The `spKeyBinder` service is a utility Spectingular service that facilitates the binding and unbinding
- * of events to dom element. It makes it possible to bind multiple key combinations to an event and on multiple
+ * The `spKeyBinder` service is a utility service that facilitates the binding and unbinding
+ * of key combination events to dom elements. It makes it possible to bind multiple key combinations to an key type and on multiple
  * elements.
  *
  * # General usage
- * The bind and unbind functions of the `spKeyBinder` service have one mandatory argument — the key combination - and one
- * optional argument - a configuration object —.
+ * The bind and unbind functions of the `spKeyBinder` service has:
+ *
+ * - one mandatory argument — the key combination
+ * - two optional arguments
+ *   - **`callback`** - a function that is triggered when the key combination on the element is entered
+ *   - **`options`** - a configuration object that makes it possible to override the default options
+ *
  * The `spKeyBinder` service is provided with default options from the `spKeyBinderConfig` provider.
  * By default the event type is `keydown`.
  *
- * ####*Bind the key combination using the  default options.*
- * ```js
- *   spKeyBinder.bind('ctrl+shift+x);
- * ```
- * ####*Bind the key combination using the default targe option and the overriden type.*
- * ```js
- *   spKeyBinder.bind('ctrl+shift+x, {type: 'keyup'});
- * ```
- * ####*Bind the key combination using the overriden type and target.*
- * ```js
- *   spKeyBinder.bind('ctrl+shift+x, {target: 'x', type: 'keyup'});
- * ```
+ * The `spKeyBinder` can also be used without any key combination. If now key combination (undefined) is provided when binding, the key combination will be
+ * **`mousedown`**.
  *
  * @example
  <example module="spKeyBinderExample">
@@ -47,11 +42,14 @@
  angular.module("spKeyBinderExample", ['sp.binding']).
  controller('ctrl', function($scope, spKeyBinder) {
              spKeyBinder.bind('escape');
-             spKeyBinder.bind('ctrl+shift+x', {
+             spKeyBinder.bind('ctrl+shift+x', function() {
+                $scope.model.events.push('keydown-ctrl+shift+x');
+                $scope.$apply();
+             }, {
                 target: 'x',
                 type: 'keydown'
              });
-             spKeyBinder.bind(undefined, {
+             spKeyBinder.bind(undefined, undefined, {
                 target: 'y',
                 type: 'click'
              });
@@ -59,10 +57,6 @@
              $scope.model = {events: []};
              $scope.$on('keydown-escape', function(event) {
                 $scope.model.events.push('keydown-escape');
-                $scope.$apply();
-             });
-             $scope.$on('keydown-ctrl+shift+x', function(event) {
-                $scope.model.events.push('keydown-ctrl+shift+x');
                 $scope.$apply();
              });
              $scope.$on('click', function(event) {
@@ -99,11 +93,12 @@ angular.module('sp.binding').factory('spKeyBinder', ['$rootScope', '$document', 
      * @ngdoc method
      * @name sp.binding.spKeyBinder#bind
      * @methodOf sp.binding.spKeyBinder
-     * @description Bind the event to the given target for the given key combination.
+     * @description Bind the key combination to the given target using the given options.
      * @param {string} keyCombination The key combination.
+     * @param {function=} callback The callback that is executed when the entered key combination matches. If no callback function is provided, an event will be broadcast.
      * @param {Object=} options The options.
      */
-    function bind(keyCombination, options) {
+    function bind(keyCombination, callback, options) {
         execute(keyCombination, options, function (keyCombination, options, element) {
             var target = options.target === $document ? 'document' : options.target;
             var bind = false;
@@ -128,14 +123,15 @@ angular.module('sp.binding').factory('spKeyBinder', ['$rootScope', '$document', 
             // check for key combination
             if (angular.isUndefined(handlers[options.type].elements[target].keyCombinations[keyCombination])) {
                 handlers[options.type].count++;
-
                 handlers[options.type].elements[target].count++;
-                handlers[options.type].elements[target].keyCombinations[keyCombination] = 1;
+                handlers[options.type].elements[target].keyCombinations[keyCombination] = {}
+                handlers[options.type].elements[target].keyCombinations[keyCombination].count = 1;
             } else {
                 handlers[options.type].count++;
                 handlers[options.type].elements[target].count++;
-                handlers[options.type].elements[target].keyCombinations[keyCombination]++;
+                handlers[options.type].elements[target].keyCombinations[keyCombination].count++;
             }
+            handlers[options.type].elements[target].keyCombinations[keyCombination].callback = callback;
 
             if (bind) {
                 element.on(options.type, function (event) { // do the actual binding
@@ -150,6 +146,9 @@ angular.module('sp.binding').factory('spKeyBinder', ['$rootScope', '$document', 
                             ctrl: keys.indexOf('ctrl') > -1,
                             alt: keys.indexOf('alt') > -1
                         };
+
+                        //remove special keys
+
                         var keyCode = event.keyCode ? event.keyCode : event.which ? event.which : undefined;
                         var character = String.fromCharCode(keyCode).toLowerCase();
                         var specialKey = keys.length === 1 ? spKeyBinderConfig.specialKeys()[kc] : undefined;
@@ -162,12 +161,16 @@ angular.module('sp.binding').factory('spKeyBinder', ['$rootScope', '$document', 
                                     (angular.isDefined(specialKey) && specialKey === keyCode)) // or does it match a special key
                             ) {
 
-                            var eventName = event.type;
-                            // if we have a defined a key combination append it to the event name.
-                            if (keyCode !== 1) {
-                                eventName = eventName + '-' + kc;
+                            if(angular.isDefined(handlers[options.type].elements[target].keyCombinations[kc].callback)) {
+                                handlers[options.type].elements[target].keyCombinations[kc].callback();
+                            } else {
+                                var eventName = event.type;
+                                // if we have a defined a key combination append it to the event name.
+                                if (keyCode !== 1) {
+                                    eventName = eventName + '-' + kc;
+                                }
+                                $rootScope.$broadcast(eventName);
                             }
-                            $rootScope.$broadcast(eventName);
                         }
                     }
                 });
@@ -189,13 +192,13 @@ angular.module('sp.binding').factory('spKeyBinder', ['$rootScope', '$document', 
 
             if (angular.isDefined(handlers[options.type]) &&
                 angular.isDefined(handlers[options.type].elements[target]) &&
-                angular.isDefined(handlers[options.type].elements[target].keyCombinations[keyCombination])) {
+                angular.isDefined(handlers[options.type].elements[target].keyCombinations[keyCombination].count)) {
 
-                handlers[options.type].elements[target].keyCombinations[keyCombination]--;
+                handlers[options.type].elements[target].keyCombinations[keyCombination].count--;
                 handlers[options.type].elements[target].count--;
                 handlers[options.type].count--;
 
-                if (handlers[options.type].elements[target].keyCombinations[keyCombination] === 0) {
+                if (handlers[options.type].elements[target].keyCombinations[keyCombination].count === 0) {
                     delete handlers[options.type].elements[target].keyCombinations[keyCombination];
                 }
                 if (handlers[options.type].elements[target].count === 0) {
@@ -205,6 +208,7 @@ angular.module('sp.binding').factory('spKeyBinder', ['$rootScope', '$document', 
                 if (handlers[options.type].count === 0) {
                     delete  handlers[options.type];
                 }
+
             }
         });
     }
