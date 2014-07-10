@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>spProperty Spec</title>
+    <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="/bower_components/angular/angular.js"></script>
+    <script src="/src/sp/sp.js"></script>
+    <script src="/src/sp/utility/spUtils.js"></script>
+    <script src="/src/sp/i18n/spProperties.js"></script>
+    <script src="/src/sp/i18n/spProperty.js"></script>
+    <script src="/src/sp/i18n/spPropertyConfig.js"></script>
+    <script src="/test/mocks/sp/i18n/spPropertiesMock.js"></script>
+
+    <script type="text/javascript">
+        angular.module("spProperty", ['sp.i18n']).
+                config(function(spPropertiesProvider, spPropertyConfigProvider) {
+                    spPropertiesProvider.add('example', {
+                        'name': 'spectingular',
+                        'welcome-message': 'hello I am {{who}}'
+                    }, 'en-us');
+                    spPropertiesProvider.add('example', {
+                        'name': 'spectingular',
+                        'welcome-message': 'hallo ik ben {{who}}'
+                    }, 'nl-nl');
+                    spPropertyConfigProvider.setDefaultIdentifier('example');
+                }).
+                controller('ctrl', function($scope) {
+                    $scope.who = 'Spectingular';
+                });
+    </script>
+</head>
+<body ng-app="spProperty">
+<div ng-controller="ctrl">
+    <h1>Using only key attribute and the default identifier and locale</h1>
+    <span id="key" sp-property key="welcome-message"></span>
+
+    <h1>Using key and locale attribute and the default identifier</h1>
+    <span id="keyAndLocale" sp-property key="welcome-message" locale="nl-nl"></span>
+
+    <h1>Using key and identifier attribute and the default locale</h1>
+    <span id="keyAndIdentifier" sp-property key="welcome-message" identifier="example"></span>
+
+    <h1>Using key, identifier and locale attribute</h1>
+    <span id="keyIdentifierAndLocale" sp-property key="welcome-message" identifier="example" locale="nl-nl"></span>
+
+    <h1>Using key, identifier and non existing locale attribute</h1>
+    <span id="nonExisting" sp-property key="welcome-message" identifier="unknown" locale="nl-nl"></span>
+</div>
+</body>
+</html>

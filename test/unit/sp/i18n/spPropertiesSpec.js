@@ -1,6 +1,6 @@
 'use strict';
 
-describe('properties', function () {
+describe('spProperties provider', function () {
 
     var service; // the service to test
 

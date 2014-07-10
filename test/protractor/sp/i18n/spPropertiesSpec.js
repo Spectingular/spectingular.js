@@ -22,9 +22,9 @@ describe('spProperties', function () {
     }
 
     it('should be fetched for the given identifier and locale', function () {
-        expect(enUsProperties.count()).toBe(3);
-        expect(nlNlProperties.count()).toBe(3);
-        expect(deProperties.count()).toBe(3);
+        expect(enUsProperties.count()).toBe(4);
+        expect(nlNlProperties.count()).toBe(4);
+        expect(deProperties.count()).toBe(4);
     });
 
     it('should be fetched for the given identifier and locale and have the correct values', function () {
