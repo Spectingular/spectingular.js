@@ -6,6 +6,7 @@
  *
  * @description
  * Directive for displaying properties from the {@link sp.i18n.spProperties} service.
+ * Note: this directive also support binding with the curly braches notation ( {{  }} )
  *
  * @param {String} key The property key to display
  * @param {String=} identifier The properties identifier
