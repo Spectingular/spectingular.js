@@ -95,6 +95,15 @@ NG_DOCS={
     },
     {
       "section": "api",
+      "id": "sp.utility.spDraggable",
+      "shortName": "sp.utility.spDraggable",
+      "type": "service",
+      "moduleName": "sp.utility",
+      "shortDescription": "a attribute directive to create a draggable element. Directive will emit the new position",
+      "keywords": "adding api attribute axis chosen create default directive draggable dragging element elements emit freely limited position service sp spdraggable utility"
+    },
+    {
+      "section": "api",
       "id": "sp.utility.spUtils",
       "shortName": "sp.utility.spUtils",
       "type": "service",
@@ -107,6 +116,7 @@ NG_DOCS={
     "api": true
   },
   "html5Mode": false,
+  "editExample": true,
   "startPage": "/api",
   "scripts": [
     "jquery.js",
