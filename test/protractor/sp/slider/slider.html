@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Slider Spec</title>
+    <link href="/bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet"/>
+    <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="/bower_components/angular/angular.js"></script>
+    <script src="/src/sp/sp.js"></script>
+    <script src="/src/sp/utility/spDraggable.js"></script>
+    <script src="/src/sp/slider/spSlider.js"></script>
+
+    <script type="text/javascript">
+        angular.module("spSliders", ['sp.slider','sp.utility']);
+
+        angular.module("spSliders").controller('slideCtrl', function($scope){
+                    $scope.sliderVal = 50;
+
+                });
+
+    </script>
+    <style>
+        .handle {
+            width:50px;
+            border:1px solid red;
+        }
+        .slider-bar {
+            width: 300px;
+            position: relative;
+            border: 2px solid #000000;
+            display:inline-block;
+        }
+    </style>
+</head>
+<body ng-app="spSliders">
+<div class="container" ng-controller="slideCtrl">
+    <h1>slider test</h1>
+    <sp-slider ng-model="sliderVal" min="10" max="100"></sp-slider>
+</div>
+</body>
+</html>
