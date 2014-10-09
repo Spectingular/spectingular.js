@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>spProperties Spec</title>
+    <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="/bower_components/angular/angular.js"></script>
+    <script src="/src/sp/sp.js"></script>
+    <script src="/src/sp/utility/spDraggable.js"></script>
+
+    <script type="text/javascript">
+        angular.module("spDraggables", ['sp.utility']);
+
+    </script>
+    <style>
+        div.dragable {
+
+         border:1px solid red;
+        }
+    </style>
+</head>
+<body ng-app="spDraggables">
+<div >
+    <h1>Drag test</h1>
+    <div class="dragable" sp-draggable="y" raggable>test</div>
+</div>
+</body>
+</html>
