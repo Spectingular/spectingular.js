@@ -14,28 +14,31 @@
         angular.module("spSliders", ['sp.slider','sp.utility']);
 
         angular.module("spSliders").controller('slideCtrl', function($scope){
-                    $scope.sliderVal = 50;
+                    $scope.data = {};
+                    $scope.data.sliderVal = 30;
 
                 });
 
     </script>
     <style>
         .handle {
-            width:50px;
+            width:20px;
             border:1px solid red;
+            background-color: red;
+            height: 20px;
+            text-align: center;
         }
         .slider-bar {
-            width: 300px;
             position: relative;
             border: 2px solid #000000;
-            display:inline-block;
         }
     </style>
 </head>
 <body ng-app="spSliders">
 <div class="container" ng-controller="slideCtrl">
     <h1>slider test</h1>
-    <sp-slider ng-model="sliderVal" min="10" max="100"></sp-slider>
+    <h2>the value: {{data.sliderVal}}</h2>
+    <sp-slider value="data.sliderVal" min="10" max="100"></sp-slider>
 </div>
 </body>
 </html>

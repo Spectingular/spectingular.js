@@ -8,35 +8,40 @@
  * a attribute directive to create a draggable element. Directive will emit the new position
  * By adding x or y as a value of the attribute dragging will be limited to the chosen axis
  * Wrapping it with a draggable-container attribute will contain the dragging to the limits of this container
+ * Default it will be contained by the document.
+ * Elements can be dragged half their size out of the container
  **/
 
 angular.module('sp.utility', [])
-    .directive('spDraggable', ['$document', function($document) {
+    .directive('spDraggable', ['$window','$document', '$timeout', function($window,$document, $timeout) {
         return {
             restrict: 'A',
             require: '^?spDraggableContainer',
             link: function (scope, element, attr, ctrl) {
-                var dragBound = {};
-                if(ctrl) {
-                    dragBound = ctrl.returnSize();
-                    dragBound.maxX = (dragBound.width - element.width());
-                    dragBound.maxY = (dragBound.height - element.height());
-                    dragBound.minX = dragBound.minY = 0;
-                } else {
-                    // no dragBound, set em to document size
-                    var elPos = element.offset();
-                    dragBound.maxX = ($document.width() - elPos.left - element.width());
-                    dragBound.maxY = $document.height() - elPos.top - element.height();
-                    dragBound.minY = elPos.top * -1;
-                    dragBound.minX = (elPos.left * -1);
-                }
-
-                var startX = 0, startY = 0, x = 0, y = 0,
-                    axis = attr.spDraggable;
+                var dragBound = {}, elOffset, elPos, elHeight,elWidth,
+                    startX, startY, x, y, axis = attr.spDraggable;
 
                 if (!element.css('position') || element.css('position') === 'static') {
                     element.css('position', 'relative')
                 }
+
+                $timeout(function(){
+                    setElementProps();
+                    setBounds();
+                    startX = x = elPos.left;
+                    startY = y = elPos.top;
+                });
+
+                angular.element($window).on('resize', function (event) {
+                    console.log('resizei deagge')
+    //                $timeout(function() {
+               //         setElementProps();
+                        setBounds();
+//                        startX = x = elPos.left;
+  //                      startY = y = elPos.top;
+      //              });
+
+                });
 
                 element.on('mousedown', function (event) {
                     event.preventDefault();
@@ -46,23 +51,38 @@ angular.module('sp.utility', [])
                     $document.on('mouseup', mouseUp);
                 });
 
-                function mouseMove(event) {
-                    if (axis === 'y') {
-                        y = event.pageY - startY;
-                        y = (y > dragBound.maxY) ? dragBound.maxY : (y < dragBound.minY) ? dragBound.minY : y;
-                    } else if (axis === 'x') {
-                        x = event.pageX - startX;
-                        x = (x > dragBound.maxX) ? dragBound.maxX : (x < dragBound.minX) ? dragBound.minX : x;
+                function setElementProps () {
+                    elOffset = element.offset(),
+                    elPos = element.position(),
+                    elHeight = element.height(),
+                    elWidth = element.width();
+                }
+
+                function setBounds(){
+                    if(ctrl) {
+                        elOffset.left = elOffset.top = 0;
+                        dragBound = ctrl.returnSize();
                     } else {
+                        elPos.left = elPos.top = 0;
+                        dragBound.width = $document.width();
+                        dragBound.height = $document.height()
+                    }
+                    dragBound.maxX = dragBound.width - elOffset.left - (elWidth/2);
+                    dragBound.maxY = dragBound.height - elOffset.top - (elHeight/2);
+                    dragBound.minX = -(elOffset.left + (elWidth/2));
+                    dragBound.minY = -(elOffset.top + (elHeight/2));
+                }
+
+                function mouseMove(event) {
+                    if (axis === 'y' || axis==='') {
                         y = event.pageY - startY;
                         y = (y > dragBound.maxY) ? dragBound.maxY : (y < dragBound.minY) ? dragBound.minY : y;
+                    }
+                    if (axis === 'x' || axis==='') {
                         x = event.pageX - startX;
                         x = (x > dragBound.maxX) ? dragBound.maxX : (x < dragBound.minX) ? dragBound.minX : x;
                     }
-
-                    scope.$emit('posChange', {
-                        top: y, left: x
-                    });
+                    scope.$emit('posChange', y, x);
                     element.css({
                         top: y + 'px', left: x + 'px'
                     });
