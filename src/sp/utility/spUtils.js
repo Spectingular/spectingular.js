@@ -44,6 +44,11 @@ angular.module('sp.utility').service('spUtils', function () {
      </file>
      </example>
      */
+
+    function round(value, decimals) {
+        return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+    }
+
     function traverse(object, path) {
         if (path.length === 0) {
             return object;
@@ -54,6 +59,7 @@ angular.module('sp.utility').service('spUtils', function () {
         }
     }
 
+    fn.round = round;
     fn.traverse = traverse;
 
     fn.traverseOrDefault = function (object, path, defaultValue) {

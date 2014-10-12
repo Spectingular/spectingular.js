@@ -8,7 +8,7 @@ describe('utilities', function () {
 
     });
 
-    describe('draggable', function () {
+    describe('theDraggable', function () {
 
 
         describe('', function () {

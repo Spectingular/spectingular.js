@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>spProperties Spec</title>
-    <link href="/bower_components/bootstrap/dist/css/bootstrap.css" rel=""/>
+    <title>spDraggable Spec</title>
+    <link href="/bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet"/>
     <script src="/bower_components/jquery/dist/jquery.min.js"></script>
     <script src="/bower_components/angular/angular.js"></script>
     <script src="/src/sp/sp.js"></script>
@@ -14,16 +14,32 @@
 
     </script>
     <style>
+        div.dragcont {
+            height: 150px;
+            border: 1px solid black;
+
+        }
         div.dragable {
-        width: 100px;
+        width: 50px;
          border:1px solid red;
+            position: absolute;
+
+        }
+        .test{
+            position:relative;
         }
     </style>
 </head>
 <body ng-app="spDraggables">
-<div >
+<div class="container" >
     <h1>Drag test</h1>
-    <div class="dragable" sp-draggable>test</div>
+
+    <div sp-draggable-container class="dragcont">
+        <h2>getoverit</h2>
+        <div class="dragable" sp-draggable>contained</div>
+    </div>
+    <div class="dragable" sp-draggable>free</div>
+
 </div>
 </body>
 </html>

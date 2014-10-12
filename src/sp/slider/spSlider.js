@@ -8,8 +8,8 @@
  * renders the slider bar. Uses other directives inside
  **/
 
-angular.module('sp.slider', [])
-    .directive('spSlider', ['$window','$timeout', function($window, $timeout) {
+angular.module('sp.slider')
+    .directive('spSlider', ['$window','$timeout', 'spUtils', function($window, $timeout, spUtils) {
         return {
             restrict: 'E',
             replace:true,
@@ -51,20 +51,14 @@ angular.module('sp.slider', [])
 
 //                // bind to winodw resize: @todo: use mqService
                 angular.element($window).on('resize', function () {
-console.log('resize slider')
-                //    $timeout(function() {
-//                        var posBefore = valToPixel(scope.value);
+                    $timeout(function() {
                         sliderProps = calcSliderProps();
-//                        var posAfter = valToPixel(scope.value);
-//                        if(posBefore !== posAfter) {
-//                            console.log('after: ' + valToPixel(scope.value))
-                            setSliderPos(valToPixel(scope.value));
-//                        }
-                 //  });
+                        setSliderPos(valToPixel(scope.value));
+                   });
                 });
 
                 scope.$on('posChange' ,function(event, y, x){
-                    scope.value = pixelToVal(x);
+                    scope.value = spUtils.round(pixelToVal(x),2);
                     scope.$apply();
                 });
 

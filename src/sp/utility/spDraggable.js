@@ -12,35 +12,23 @@
  * Elements can be dragged half their size out of the container
  **/
 
-angular.module('sp.utility', [])
+angular.module('sp.utility')
     .directive('spDraggable', ['$window','$document', '$timeout', function($window,$document, $timeout) {
         return {
             restrict: 'A',
             require: '^?spDraggableContainer',
             link: function (scope, element, attr, ctrl) {
-                var dragBound = {}, elOffset, elPos, elHeight,elWidth,
-                    startX, startY, x, y, axis = attr.spDraggable;
+                var dragBound = {}, elOffset={}, elPos={}, elHeight,elWidth,
+                    startX, startY, x=0, y=0, axis = attr.spDraggable;
 
-                if (!element.css('position') || element.css('position') === 'static') {
-                    element.css('position', 'relative')
-                }
+                element.css('position', 'absolute')
 
-                $timeout(function(){
-                    setElementProps();
-                    setBounds();
-                    startX = x = elPos.left;
-                    startY = y = elPos.top;
+                $timeout(function() {
+                    init();
                 });
 
-                angular.element($window).on('resize', function (event) {
-                    console.log('resizei deagge')
-    //                $timeout(function() {
-               //         setElementProps();
-                        setBounds();
-//                        startX = x = elPos.left;
-  //                      startY = y = elPos.top;
-      //              });
-
+                angular.element($window).on('resize', function () {
+                   init();
                 });
 
                 element.on('mousedown', function (event) {
@@ -51,26 +39,24 @@ angular.module('sp.utility', [])
                     $document.on('mouseup', mouseUp);
                 });
 
-                function setElementProps () {
-                    elOffset = element.offset(),
-                    elPos = element.position(),
+                function init() {
+                    elOffset = element.position();
+                    x = elOffset.left;
+                    y = elOffset.top;
                     elHeight = element.height(),
                     elWidth = element.width();
-                }
-
-                function setBounds(){
                     if(ctrl) {
-                        elOffset.left = elOffset.top = 0;
                         dragBound = ctrl.returnSize();
                     } else {
-                        elPos.left = elPos.top = 0;
                         dragBound.width = $document.width();
                         dragBound.height = $document.height()
+
                     }
-                    dragBound.maxX = dragBound.width - elOffset.left - (elWidth/2);
-                    dragBound.maxY = dragBound.height - elOffset.top - (elHeight/2);
-                    dragBound.minX = -(elOffset.left + (elWidth/2));
-                    dragBound.minY = -(elOffset.top + (elHeight/2));
+                    dragBound.maxX = dragBound.width - (elWidth/2);
+                    dragBound.maxY = dragBound.height - (elHeight/2);
+                    dragBound.minX = -(elWidth/2);
+                    dragBound.minY = -(elHeight/2);
+                    console.log(dragBound)
                 }
 
                 function mouseMove(event) {
@@ -99,6 +85,9 @@ angular.module('sp.utility', [])
 angular.module('sp.utility').directive('spDraggableContainer', [ function(){
     return {
         controller: function( $element) {
+            if ($element.css('position') === 'static') {
+                $element.css('position', 'relative')
+            }
             this.returnSize = function() {
                 return {
                     width: $element.width(),
