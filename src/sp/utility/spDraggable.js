@@ -56,7 +56,6 @@ angular.module('sp.utility')
                     dragBound.maxY = dragBound.height - (elHeight/2);
                     dragBound.minX = -(elWidth/2);
                     dragBound.minY = -(elHeight/2);
-                    console.log(dragBound)
                 }
 
                 function mouseMove(event) {
