@@ -17,8 +17,12 @@ angular.module('sp.slider')
                 min:'=',
                 max:'=',
                 value: '='
+
             },
             link: function(scope, element, attr) {
+
+                var step = (attr.stepsize) ? attr.stepsize : 1,
+                    decimals= (attr.decimals) ? attr.decimals : 2;
 
                 function calcSliderProps() {
                     var scaleSize= element.width(),
@@ -47,6 +51,12 @@ angular.module('sp.slider')
                     return (val- (sliderProps.handleSizeCorr+scope.min)) / sliderProps.valPxRatio;
                 }
 
+                function nextStep(val) {
+                    // round the value to the nearest step
+
+                }
+
+
                 var sliderProps = calcSliderProps();
 
 //                // bind to winodw resize: @todo: use mqService
@@ -58,7 +68,7 @@ angular.module('sp.slider')
                 });
 
                 scope.$on('posChange' ,function(event, y, x){
-                    scope.value = spUtils.round(pixelToVal(x),2);
+                    scope.value = spUtils.round(pixelToVal(x),decimals);
                     scope.$apply();
                 });
 

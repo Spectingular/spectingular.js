@@ -21,7 +21,7 @@ angular.module('sp.utility')
                 var dragBound = {}, elOffset={}, elPos={}, elHeight,elWidth,
                     startX, startY, x=0, y=0, axis = attr.spDraggable;
 
-                element.css('position', 'absolute')
+                element.css('position', 'absolute');
 
                 $timeout(function() {
                     init();
