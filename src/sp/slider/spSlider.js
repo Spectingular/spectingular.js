@@ -17,13 +17,13 @@ angular.module('sp.slider')
             scope:{
                 min:'=',
                 max:'=',
-                value: '='
+                value: '=',
+                step: '=stepsize'
 
             },
             link: function(scope, element, attr) {
 
-                var step = (attr.stepsize) ? parseInt(attr.stepsize) : 1,
-                    decimals= (attr.decimals) ? attr.decimals : 2;
+                var decimals= (attr.decimals) ? attr.decimals : 2;
 
                 function calcSliderProps() {
                     var scaleSize= element.width(),
@@ -57,33 +57,34 @@ angular.module('sp.slider')
                 }
 
                 $document.on('mouseup', function(){
-                    setSliderPos(valToPixel(roundtoStep(scope.value, step)));
+                    setSliderPos(valToPixel(roundtoStep(scope.value, scope.step)));
                 });
 
                 var sliderProps = calcSliderProps();
+
+                scope.stepWidth = scope.step / sliderProps.valPxRatio;
 
                 // bind to winodw resize: @todo: use mqService
                 angular.element($window).on('resize', function () {
                     $timeout(function() {
                         sliderProps = calcSliderProps();
-                        setSliderPos(valToPixel(roundtoStep(scope.value, step)));
+                        setSliderPos(valToPixel(roundtoStep(scope.value, scope.step)));
                    });
                 });
 
                 scope.$on('posChange' ,function(event, y, x){
-                    scope.value = roundtoStep(spUtils.round(pixelToVal(x),decimals),step);
+                    scope.value = roundtoStep(spUtils.round(pixelToVal(x),decimals),scope.step);
                     scope.$apply();
-                    setSliderPos(valToPixel(roundtoStep(scope.value, step)));
                 });
 
                 scope.$watch('value',function(val){
-                    setSliderPos(valToPixel(roundtoStep(val, step)));
+                    setSliderPos(valToPixel(roundtoStep(val, scope.step)));
                 });
             },
             controller: 'sliderCtrl',
             template:
                 '<div class="slider-bar" sp-draggable-container id="slider_{{$id}}" >' +
-                '<span class="barmetric">&NonBreakingSpace;</span>' +
+                    '<span ng-class="{\'lower\': (interval * step + min)< value}" metric-bar="{{stepWidth}}" class="barmetric" ng-repeat="interval in intervals">{{(interval * step) + min}}</span>' +
                     '<span class="handle" sp-draggable="x">trek!</span>' +
                 '</div>'
         }
@@ -91,5 +92,21 @@ angular.module('sp.slider')
 
 angular.module('sp.slider')
     .controller('sliderCtrl',function($scope){
-        console.log($scope)
+        $scope.intervals = [];
+        for(var i=0; i< ($scope.max - $scope.min)/$scope.step; i++) {
+            $scope.intervals.push(i);
+        }
+});
+
+angular.module('sp.slider').directive('metricBar' ,function() {
+    return {
+        scope: true,
+
+        link: function(scope, element, attrs){
+            console.log(scope)
+            element.css('width', attrs.metricBar);
+
+        }
+
+    }
 });
