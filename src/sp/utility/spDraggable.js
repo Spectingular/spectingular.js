@@ -13,13 +13,13 @@
  **/
 
 angular.module('sp.utility')
-    .directive('spDraggable', ['$window','$document', '$timeout', function($window,$document, $timeout) {
+    .directive('spDraggable', ['$window','$document', '$timeout', function($window, $document, $timeout) {
         return {
             restrict: 'A',
             require: '^?spDraggableContainer',
             link: function (scope, element, attr, ctrl) {
                 var dragBound = {}, elOffset={}, elPos={}, elHeight,elWidth,
-                    startX, startY, x=0, y=0, axis = attr.spDraggable;
+                    startX, startY, x=0, y=0, axis;
 
                 element.css('position', 'absolute');
 
@@ -42,6 +42,7 @@ angular.module('sp.utility')
 
                 function init() {
                     initPosition();
+                    axis = attr.spDraggable;
                     elHeight = element.height(),
                     elWidth = element.width();
                     if(ctrl) {
@@ -72,19 +73,15 @@ angular.module('sp.utility')
                         x = (x > dragBound.maxX) ? dragBound.maxX : (x < dragBound.minX) ? dragBound.minX : x;
                     }
 
-                    var yPerc = pixelToPercentage(y, dragBound.height);
-                    var xPerc = pixelToPercentage(x, dragBound.width);
-
-                    scope.$emit('posChange', yPerc, xPerc);
+                    scope.$emit('posChange', y, x);
                     element.css({
-                        top: yPerc + '%', left: xPerc + '%'
+                        top:  pixelToPercentage(y, dragBound.height) + '%', left: pixelToPercentage(x, dragBound.width) + '%'
                     });
                 }
 
                 function pixelToPercentage(px, parentPx) {
                     return (px / parentPx) * 100;
                 }
-
                 function mouseUp() {
                     $document.off('mousemove', mouseMove);
                     $document.off('mouseup', mouseUp);

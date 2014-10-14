@@ -8,8 +8,11 @@
     <script src="/bower_components/angular/angular.js"></script>
     <script src="/src/sp/sp.js"></script>
     <script src="/src/sp/utility/spUtils.js"></script>
+    <script src="/src/sp/binding/spKeyBinder.js"></script>
+    <script src="/src/sp/binding/spKeyBinderConfig.js"></script>
     <script src="/src/sp/utility/spDraggable.js"></script>
     <script src="/src/sp/slider/spSlider.js"></script>
+    <script src="/src/sp/slider/sliderHandle.js"></script>
 
     <script type="text/javascript">
         angular.module("spSliders", ['sp.slider','sp.utility']);
@@ -21,12 +24,17 @@
     </script>
     <style>
         .handle {
-            width:auto;
+            width:20px;
             border:1px solid red;
             background-color: red;
             height: 20px;
             text-align: center;
+            position:absolute;
         }
+        sp-slider-handle {
+            position: absolute;
+        }
+
         .slider-bar {
             position: relative;
             border: 1px solid #000000;
@@ -48,7 +56,7 @@
 <div class="container" ng-controller="slideCtrl">
     <h1>slider test</h1>
     <h2>the value: {{data.sliderVal}}</h2>
-    <sp-slider value="data.sliderVal" min="10" max="40" decimals="0" stepsize="2">
+    <sp-slider value="data.sliderVal" min="10" max="100" decimals="0" stepsize="10" orientation="'x'">
 
     </sp-slider>
 </div>
