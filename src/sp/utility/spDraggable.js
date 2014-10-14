@@ -33,6 +33,7 @@ angular.module('sp.utility')
 
                 element.on('mousedown', function (event) {
                     event.preventDefault();
+                    initPosition();
                     startX = event.pageX - x;
                     startY = event.pageY - y;
                     $document.on('mousemove', mouseMove);
@@ -40,9 +41,7 @@ angular.module('sp.utility')
                 });
 
                 function init() {
-                    elOffset = element.position();
-                    x = elOffset.left;
-                    y = elOffset.top;
+                    initPosition();
                     elHeight = element.height(),
                     elWidth = element.width();
                     if(ctrl) {
@@ -50,12 +49,17 @@ angular.module('sp.utility')
                     } else {
                         dragBound.width = $document.width();
                         dragBound.height = $document.height()
-
                     }
                     dragBound.maxX = dragBound.width - (elWidth/2);
                     dragBound.maxY = dragBound.height - (elHeight/2);
                     dragBound.minX = -(elWidth/2);
                     dragBound.minY = -(elHeight/2);
+                }
+
+                function initPosition() {
+                    elOffset = element.position();
+                    x = elOffset.left;
+                    y = elOffset.top;
                 }
 
                 function mouseMove(event) {
@@ -67,10 +71,18 @@ angular.module('sp.utility')
                         x = event.pageX - startX;
                         x = (x > dragBound.maxX) ? dragBound.maxX : (x < dragBound.minX) ? dragBound.minX : x;
                     }
-                    scope.$emit('posChange', y, x);
+
+                    var yPerc = pixelToPercentage(y, dragBound.height);
+                    var xPerc = pixelToPercentage(x, dragBound.width);
+
+                    scope.$emit('posChange', yPerc, xPerc);
                     element.css({
-                        top: y + 'px', left: x + 'px'
+                        top: yPerc + '%', left: xPerc + '%'
                     });
+                }
+
+                function pixelToPercentage(px, parentPx) {
+                    return (px / parentPx) * 100;
                 }
 
                 function mouseUp() {
