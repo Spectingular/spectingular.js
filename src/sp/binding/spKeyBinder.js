@@ -101,6 +101,7 @@ angular.module('sp.binding').factory('spKeyBinder', ['$rootScope', '$document', 
     function bind(keyCombination, callback, options) {
         execute(keyCombination, options, function (keyCombination, options, element) {
             var target = options.target === $document ? 'document' : options.target;
+
             var bind = false;
 
             // check for type
@@ -133,10 +134,11 @@ angular.module('sp.binding').factory('spKeyBinder', ['$rootScope', '$document', 
             }
             handlers[options.type].elements[target].keyCombinations[keyCombination].callback = callback;
 
+
             if (bind) {
                 element.on(options.type, function (event) { // do the actual binding
                     var origin = angular.isDefined(event.delegateTarget.id) ? event.delegateTarget.id : 'document';
-                    var keyCombinations = handlers[options.type].elements[target].keyCombinations;
+                    var keyCombinations = handlers[options.type].elements[origin].keyCombinations;
 
                     for (var kc in keyCombinations) {
                         var keys = kc.split("+");

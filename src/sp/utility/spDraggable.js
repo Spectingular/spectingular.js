@@ -16,6 +16,7 @@ angular.module('sp.utility')
     .directive('spDraggable', ['$window','$document', '$timeout', function($window, $document, $timeout) {
         return {
             restrict: 'A',
+//            scope:true,
             require: '^?spDraggableContainer',
             link: function (scope, element, attr, ctrl) {
                 var dragBound = {}, elOffset={}, elPos={}, elHeight,elWidth,
@@ -73,7 +74,7 @@ angular.module('sp.utility')
                         x = (x > dragBound.maxX) ? dragBound.maxX : (x < dragBound.minX) ? dragBound.minX : x;
                     }
 
-                    scope.$emit('posChange', y, x);
+                    scope.$emit('posChange', y, x, scope.$id);
                     element.css({
                         top:  pixelToPercentage(y, dragBound.height) + '%', left: pixelToPercentage(x, dragBound.width) + '%'
                     });

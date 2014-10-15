@@ -9,53 +9,87 @@
  **/
 
 angular.module('sp.slider')
-    .directive('spSlider', ['$window','$timeout', function($window, $timeout) {
+    .directive('spSlider', ['$window','$timeout','spKeyBinder', function($window, $timeout,spKeyBinder) {
         return {
             restrict: 'E',
+            require: 'ngModel',
             replace:true,
+            transclude: true,
             scope:{
                 min:'=',
                 max:'=',
-                value: '=',
                 step: '=stepsize',
                 orientation: '='
             },
-            link: function(scope, element, attr) {
+            link: function(scope, element, attr, ngModel) {
 
-                var decimals= (attr.decimals) ? attr.decimals : 2;
                 function init() {
                     scope.sliderProps = {
-                        scaleSize: element.width(),
-                        scaleRange: scope.max - scope.min,
-                        step: scope.step,
-                        min: scope.min,
-                        max: scope.max,
-                        orientation: scope.orientation
+                        scaleSize: (scope.orientationX) ? element.width() : element.height() ,
+                        scaleRange: scope.max - scope.min
                     }
                     scope.sliderProps.valPxRatio= scope.sliderProps.scaleRange / scope.sliderProps.scaleSize;
-                    scope.$broadcast('containerChanged', scope.sliderProps);
                 }
+                scope.orientationX = (scope.orientation ==='y') ? false : true;
+
+                ngModel.$viewChangeListeners.push(onModelUpdate);
+                ngModel.$render = function() {
+                    scope.$broadcast('setHandle', (valToPixel(roundtoStep(ngModel.$modelValue, scope.step))), scope.sliderProps.scaleSize, ngModel.$modelValue);
+                }
+
+                scope.$on('posChange' ,function(event, y, x){
+                    var px =  (scope.orientationX) ? x : y;
+                    ngModel.$setViewValue(roundtoStep(pixelToVal(px),scope.step));
+                    scope.$apply();
+                });
 
                 angular.element($window).on('resize', function () {
                     $timeout(function() {
-                        scope.sliderProps = init();
+                        init();
                    });
                 });
                 init();
+
+                function onModelUpdate() {
+                    scope.$broadcast('setHandle', (valToPixel(roundtoStep(ngModel.$modelValue, scope.step))), scope.sliderProps.scaleSize, ngModel.$modelValue);
+                }
+
+                function pixelToVal(x) {
+                    return x * scope.sliderProps.valPxRatio + scope.min;
+                }
+
+                function valToPixel(val) {
+                    return (val- scope.min) / scope.sliderProps.valPxRatio;
+                }
+
+                function roundtoStep(val, step) {
+                    return step+ Math.round((val - step)/ step ) * step;
+                }
+                $timeout(function() {
+                    init();
+                    scope.stepsize = valToPixel(scope.min +scope.step);
+
+//                    if(angular.isObject(ngModel.$modelValue)) {
+//                        console.log('we ahve a range')
+//                        scope.range = true;
+//
+//                    }
+                    scope.$broadcast('setHandle', (valToPixel(roundtoStep(ngModel.$modelValue, scope.step))), scope.sliderProps.scaleSize,  ngModel.$modelValue);
+                });
             },
             controller: 'sliderCtrl',
             template:
-                '<div class="slider-bar" sp-draggable-container id="slider_{{$id}}" >' +
-                    '<sp-slider-handle value="value">HAND</sp-slider-handle>' +
+                '<div class="slider-bar-{{orientation}}" sp-draggable-container id="slider_{{$id}}" >' +
+                '   <sp-slider-handle stepsize="{{stepsize}}" range="{{range}}"></sp-slider-handle >' +
+                '   <sp-slider-handle stepsize="{{stepsize}}" ng-if="range" range="{{range}}" range-high></sp-slider-handle>' +
                 '</div>'
         }
     }]);
 
 angular.module('sp.slider')
     .controller('sliderCtrl',function($scope){
-
-//        $scope.intervals = [];
-//        for(var i=0; i< ($scope.max - $scope.min)/$scope.step; i++) {
-//            $scope.intervals.push(i);
-//        }
+        $scope.handles = [];
+        this.addHandle = function(handleId){
+            $scope.handles.push(handleId);
+        }
 });

@@ -11,6 +11,7 @@
     <script src="/src/sp/binding/spKeyBinder.js"></script>
     <script src="/src/sp/binding/spKeyBinderConfig.js"></script>
     <script src="/src/sp/utility/spDraggable.js"></script>
+    <script src="/src/sp/slider/spSliderBar.js"></script>
     <script src="/src/sp/slider/spSlider.js"></script>
     <script src="/src/sp/slider/sliderHandle.js"></script>
 
@@ -19,12 +20,16 @@
 
         angular.module("spSliders").controller('slideCtrl', function($scope){
                     $scope.data = {};
-                    $scope.data.sliderVal = 20;
+                    $scope.data.sliderVal = 30;
+                    $scope.data.sliderVal2 = 40;
+                    $scope.data.sliderRange = {
+                        low:10,
+                        high:100
+                    }
                 });
     </script>
     <style>
         .handle {
-            width:20px;
             border:1px solid red;
             background-color: red;
             height: 20px;
@@ -35,10 +40,17 @@
             position: absolute;
         }
 
-        .slider-bar {
+        .slider-bar-x {
             position: relative;
             border: 1px solid #000000;
             height: 20px;
+        }
+
+        .slider-bar-y {
+            position: relative;
+            border: 1px solid #000000;
+            width: 20px;
+            height: 300px;
         }
         .barmetric {
             width : 10px;
@@ -49,16 +61,29 @@
         .lower {
             background-color: #dfdfdf;
         }
+        .transclass {
+            border: 2px solid green;
+        }
 
     </style>
+
 </head>
 <body ng-app="spSliders">
+
+
 <div class="container" ng-controller="slideCtrl">
     <h1>slider test</h1>
     <h2>the value: {{data.sliderVal}}</h2>
-    <sp-slider value="data.sliderVal" min="10" max="100" decimals="0" stepsize="10" orientation="'x'">
 
+<button type="button" ng-click="data.sliderVal = data.sliderVal + 10">incremetn model</button>
+        <!--<sp-slider ng-model="data.sliderVal" min="10" max="100" decimals="0" stepsize="10" orientation="'y'">-->
+        <!--</sp-slider>-->
+
+    <sp-slider ng-model="data.sliderVal" min="10" max="100" decimals="0" stepsize="10" orientation="'x'">
     </sp-slider>
+
+
+    <a href="nu.nl">link for focus</a>
 </div>
 </body>
 </html>

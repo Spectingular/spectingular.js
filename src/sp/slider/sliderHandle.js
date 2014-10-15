@@ -13,71 +13,68 @@ angular.module('sp.slider')
         return {
             restrict: 'E',
             require: '^spSlider',
-            scope:{
-                value: '='
-            },
             replace: true,
-            transclude: true,
+            scope:true,
             link: function(scope, element, attr,ctrl) {
-                scope.sliderProps = {};
+                var correction = (scope.orientationX) ? element.width(): element.height();
 
-                scope.$on('containerChanged',function(event, sliderProps){
-                    scope.sliderProps = sliderProps;
-                    console.log(sliderProps.orientation)
-                    scope.sliderProps.valPxRatio = scope.sliderProps.scaleRange / scope.sliderProps.scaleSize;
-                    scope.handleSizeCorr= scope.sliderProps.valPxRatio * (element.width() / 2);
-                    setSliderPos(valToPixel(roundtoStep(scope.value, scope.sliderProps.step)));
-                });
-
-                function setSliderPos(x) {
-                    element.css({left: (x / scope.sliderProps.scaleSize) * 100 + '%'});
+                scope.range = attr.range;
+                if (scope.range) {
+                    console.log('ranged')
+                    ctrl.addHandle(scope.$id);
                 }
 
-                function pixelToVal(x) {
-                    return x * scope.sliderProps.valPxRatio + scope.handleSizeCorr + scope.sliderProps.min;
+                function setSliderPos(px, scaleSize) {
+                    var cssProp =  (scope.orientationX) ? 'left': 'top';
+                    element.css(cssProp, ((px-correction)/scaleSize)*100 + '%');
                 }
 
-                function valToPixel(val) {
-                    return (val- (scope.handleSizeCorr+scope.sliderProps.min)) / scope.sliderProps.valPxRatio;
-                }
-
-                function roundtoStep(val, step) {
-                    return step+ Math.round((val - step)/ step ) * step;
-                }
-
-                var bindTarget = {target: element}
-
-                spKeyBinder.bind('left', function() {
-                    scope.value = (scope.value > scope.sliderProps.min) ? scope.value - scope.sliderProps.step : scope.sliderProps.min;
-                    scope.$apply();
-                }, bindTarget);
-
-                spKeyBinder.bind('right', function() {
-                    scope.value = (scope.value < scope.sliderProps.max) ? scope.value + scope.sliderProps.step : scope.sliderProps.max;
-                    scope.$apply();
-                }, bindTarget);
-
-                spKeyBinder.bind('home', function() {
-                    scope.value = scope.sliderProps.min;
-                }, bindTarget);
-
-                spKeyBinder.bind('end', function() {
-                    scope.value = scope.sliderProps.max;
-                }, bindTarget);
+                attr.$observe('stepsize', function(val){
+                    scope.pxStep = val;
+                })
 
                 element.on('mouseup', function(){
-                    setSliderPos(valToPixel(roundtoStep(scope.value, scope.sliderProps.step)));
+                   setSliderPos(scope.px);
                 });
 
-                scope.$watch('value',function(val){
-                    setSliderPos(valToPixel(roundtoStep(val, scope.sliderProps.step)));
+                element.on('keyup', function(){
+                    setSliderPos(scope.px);
                 });
 
-                scope.$on('posChange' ,function(event, y, x){
-                    scope.value = roundtoStep(pixelToVal(x),scope.sliderProps.step);
-                    scope.$apply();
+                scope.$on('setHandle' ,function(event, px, scaleSize, value){
+                    scope.value = value;
+                    scope.px = px;
+                    scope.scaleSize = scaleSize;
+                    setSliderPos(px, scaleSize);
+                });
+
+                $timeout(function() {
+                    var bindTarget = {target: 'sh_' + scope.$id};
+                    var bindEvent = {}
+
+                    if (scope.orientationX) {
+                        bindEvent.up = 'right';
+                        bindEvent.down =  'left';
+                    } else {
+                        bindEvent.up= 'down';
+                        bindEvent.down= 'up';
+                    }
+                    spKeyBinder.bind(bindEvent.down, function () {
+                        var newPos = (scope.px > 0) ? (scope.px - parseInt(scope.pxStep)) : 0;
+                        setSliderPos(newPos, scope.scaleSize);
+                        scope.$emit('posChange', newPos, newPos, scope.$id);
+                    }, bindTarget);
+                    spKeyBinder.bind(bindEvent.up, function () {
+                        var newPos = (scope.px < scope.scaleSize)? scope.px + parseInt(scope.pxStep): scope.scaleSize;
+                        setSliderPos(newPos, scope.scaleSize);
+                        scope.$emit('posChange', newPos, newPos, scope.$id);
+                    }, bindTarget);
                 });
             },
-            template: '<div class="handle" tabindex="0" sp-draggable="{{sliderProps.orientation}}" ng-transclude></div>'
+            template:
+                '<div class="handle" tabindex="0" id="sh_{{$id}}" sp-draggable="{{orientation}}">' +
+                '   <div>someHandle</div>' +
+                '   <div>{{value}}</div>' +
+                '</div>'
         }
     }]);
