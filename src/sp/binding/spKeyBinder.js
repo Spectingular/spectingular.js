@@ -174,7 +174,7 @@ angular.module('sp.binding').factory('spKeyBinder', ['$rootScope', '$document', 
                             ) {
 
                             if(angular.isDefined(handlers[options.type].elements[target].keyCombinations[kc].callback)) {
-                                handlers[options.type].elements[target].keyCombinations[kc].callback();
+                                handlers[options.type].elements[target].keyCombinations[kc].callback(event);
                             } else {
                                 var eventName = event.type;
                                 // if we have a defined a key combination append it to the event name.

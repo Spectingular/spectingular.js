@@ -23,6 +23,8 @@ angular.module('sp.slider')
             },
             link: function(scope, element, attr, ngModel) {
 
+                scope.orientationX = (scope.orientation !=='y');
+
                 function init() {
                     scope.sliderProps = {
                         scaleSize: (scope.orientationX) ? element.width() : element.height() ,
@@ -30,9 +32,10 @@ angular.module('sp.slider')
                     }
                     scope.sliderProps.valPxRatio= scope.sliderProps.scaleRange / scope.sliderProps.scaleSize;
                 }
-                scope.orientationX = (scope.orientation ==='y') ? false : true;
 
+                // view to model
                 ngModel.$viewChangeListeners.push(onModelUpdate);
+                // model to view
                 ngModel.$render = function() {
                     scope.$broadcast('setHandle', (valToPixel(roundtoStep(ngModel.$modelValue, scope.step))), scope.sliderProps.scaleSize, ngModel.$modelValue);
                 }

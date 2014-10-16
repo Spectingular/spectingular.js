@@ -16,7 +16,7 @@ angular.module('sp.slider')
             replace: true,
             scope:true,
             link: function(scope, element, attr,ctrl) {
-                var correction = (scope.orientationX) ? element.width(): element.height();
+                var correction = ((scope.orientationX) ? element.width(): element.height());
 
                 scope.range = attr.range;
                 if (scope.range) {
@@ -37,9 +37,9 @@ angular.module('sp.slider')
                    setSliderPos(scope.px);
                 });
 
-                element.on('keyup', function(){
-                    setSliderPos(scope.px);
-                });
+//                element.on('keyup', function(){
+//                    setSliderPos(scope.px);
+//                });
 
                 scope.$on('setHandle' ,function(event, px, scaleSize, value){
                     scope.value = value;
@@ -59,12 +59,15 @@ angular.module('sp.slider')
                         bindEvent.up= 'down';
                         bindEvent.down= 'up';
                     }
-                    spKeyBinder.bind(bindEvent.down, function () {
+                    spKeyBinder.bind(bindEvent.down, function (event) {
+                        event.stopPropagation();
                         var newPos = (scope.px > 0) ? (scope.px - parseInt(scope.pxStep)) : 0;
                         setSliderPos(newPos, scope.scaleSize);
                         scope.$emit('posChange', newPos, newPos, scope.$id);
+
                     }, bindTarget);
-                    spKeyBinder.bind(bindEvent.up, function () {
+                    spKeyBinder.bind(bindEvent.up, function (event) {
+                        event.stopPropagation();
                         var newPos = (scope.px < scope.scaleSize)? scope.px + parseInt(scope.pxStep): scope.scaleSize;
                         setSliderPos(newPos, scope.scaleSize);
                         scope.$emit('posChange', newPos, newPos, scope.$id);
