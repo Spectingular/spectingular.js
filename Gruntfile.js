@@ -73,7 +73,7 @@ module.exports = function (grunt) {
         instrument: {
             files: 'src/sp/**/*.js',
             options: {
-                lazy: true,
+                lazy: false,
                 basePath: "instrumented"
             }
         },
